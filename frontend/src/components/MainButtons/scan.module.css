@@ -1,0 +1,14 @@
+.ScanButton {
+    min-width: 320px;
+    height: 60px;
+    background-color: #21a038;
+    font-size: 1.2rem;
+    color: white;   
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.ScanButton:hover {
+    background-color: darkgreen;
+}
