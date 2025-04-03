@@ -1,7 +1,13 @@
+ 
+filename = 'checks/all (2).jpg'
+
 from PIL import Image
+
+# Load an image
+img = Image.open(filename)
 import pytesseract
-import numpy as np 
-filename = 'checks/all (1).jpg'
-img1 = np.array(Image.open(filename))
-text = pytesseract.image_to_string(img1)
+# Use Tesseract to extract text
+text = pytesseract.image_to_string(img, lang='rus')
+
+# Print the extracted text
 print(text)
