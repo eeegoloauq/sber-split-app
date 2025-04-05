@@ -1,7 +1,7 @@
 .ScanButton {
     min-width: 320px;
     height: 60px;
-    background-color: #21a038;
+    background-color: var(--green-color);
     font-size: 1.2rem;
     color: white;   
     border-radius: 8px;

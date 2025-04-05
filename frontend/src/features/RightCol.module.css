@@ -1,0 +1,17 @@
+.rightColContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.rightColumn {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.positionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

@@ -1,7 +1,7 @@
 .header {
     width: 100%;
     height: 60px;   
-    background-color: #21a038;
+    background-color: var(--green-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,10 +10,19 @@
     position: sticky;
     top: 0;
     left: 0;
-    font-weight: bold; /* жирность текста */
+    font-weight: bold; 
 }
 .headerBrandLink {
     color: white;
     font-size: 1.5em;
     text-decoration: none;
+    margin-right: 1rem;
 }
+.headerContainer {
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%; 
+    gap: 1rem;
+}
+

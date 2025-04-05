@@ -1,24 +1,77 @@
-.Welcome {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-top: 16.5rem;
-    text-align: center;
-    color: #1f2937;
+.homeContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3rem;
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 10rem;
 }
 
-.WelcomeText {
-    margin-top: 1rem;
-    font-size: 1.1em;
-    text-align: center;
-    color: #1f2937a4;
-    max-width: 350px;
-    margin-left: auto;
-    margin-right: auto;
+.infoText {
+    flex: 1;
+    max-width: 500px;
+    color: #333;
+}
+
+.infoText h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    color: var(--text-main);
+}
+
+.infoText p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #4b5563;
     margin-bottom: 2rem;
 }
 
-@media (max-width: 960px) {
-    .Welcome {
-        margin-top: 10rem;
+.stepsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.stepsList li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    color: black;
+}
+
+.stepsList span {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--green-color);
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-right: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .homeContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .infoText {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .stepsList li {
+        justify-content: center;
     }
 }
