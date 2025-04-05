@@ -1,13 +1,73 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sber Split App - Frontend</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Receipt Splitter</h1>
+
+    <div class="container">
+        <section id="upload-section">
+            <h2>1. Upload Receipt Image</h2>
+            <input type="file" id="receiptFile" accept="image/png, image/jpeg">
+            <button id="uploadButton">Upload and Process</button>
+            <div id="upload-status" class="status-message"></div>
+            <div id="image-preview-container" style="margin-top: 10px;">
+                <img id="image-preview" src="#" alt="Image Preview" style="max-width: 300px; max-height: 300px; display: none;" />
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="result-section" style="display: none;">
+            <h2>2. Processing Results</h2>
+            <div id="ocr-status" class="status-message"></div>
+            <h3>Parsed Information:</h3>
+            <pre id="parsed-data"></pre> <!-- Use <pre> for formatted JSON -->
+            <h4>Items:</h4>
+            <ul id="parsed-items"></ul>
+            <h4>Total Amount:</h4>
+            <p id="parsed-total">N/A</p>
+        </section>
+
+        <hr>
+
+        <section id="split-section" style="display: none;">
+            <h2>3. Split the Bill</h2>
+            <input type="hidden" id="receipt-id-for-split">
+            <div>
+                <label for="splitMethod">Split Method:</label>
+                <select id="splitMethod">
+                    <option value="equal" selected>Equally</option>
+                    <option value="proportional" disabled>Proportionally (Not Implemented Yet)</option>
+                    <!-- Add other methods later -->
+                </select>
+            </div>
+            <div id="equal-split-inputs">
+                 <label for="numPeople">Number of People:</label>
+                 <input type="number" id="numPeople" min="1" value="2">
+            </div>
+            <!-- Add inputs for other methods later -->
+            <button id="splitButton">Calculate Split</button>
+            <div id="split-status" class="status-message"></div>
+            <h3>Split Results:</h3>
+            <pre id="split-result"></pre>
+        </section>
+    </div>
+
+    <hr>
+
+    <section id="history-section">
+        <h2>Receipt History</h2>
+        <button id="refreshHistoryButton">Refresh History</button>
+        <div id="history-status" class="status-message"></div>
+        <ul id="receipt-history-list"></ul>
+    </section>
+
+    <script src="script.js"></script>
+</body>
 </html>

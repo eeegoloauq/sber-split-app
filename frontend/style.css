@@ -1,0 +1,133 @@
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 700px;
+    margin: 20px auto;
+}
+
+h1, h2, h3, h4 {
+    color: #555;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin: 30px 0;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+input[type="file"],
+input[type="number"],
+select {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+#uploadButton,
+#splitButton,
+#refreshHistoryButton {
+    margin-top: 10px;
+}
+
+.status-message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 3px;
+    display: none; /* Hidden by default */
+}
+
+.status-message.success {
+    background-color: #dff0d8;
+    color: #3c763d;
+    border: 1px solid #d6e9c6;
+    display: block;
+}
+
+.status-message.error {
+    background-color: #f2dede;
+    color: #a94442;
+    border: 1px solid #ebccd1;
+    display: block;
+}
+
+.status-message.loading {
+    background-color: #d9edf7;
+    color: #31708f;
+    border: 1px solid #bce8f1;
+    display: block;
+}
+
+pre {
+    background-color: #eee;
+    padding: 15px;
+    border-radius: 3px;
+    overflow-x: auto;
+    white-space: pre-wrap; /* Wrap long lines */
+    word-wrap: break-word;
+}
+
+#parsed-items,
+#receipt-history-list {
+    list-style: none;
+    padding: 0;
+}
+
+#parsed-items li,
+#receipt-history-list li {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+}
+
+#receipt-history-list li {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#receipt-history-list li:hover {
+    background-color: #efefef;
+}
+
+#receipt-history-list li button {
+    float: right;
+    background-color: #d9534f;
+    font-size: 0.8em;
+    padding: 3px 8px;
+    margin-left: 10px;
+}
+
+#receipt-history-list li button:hover {
+    background-color: #c9302c;
+} 
