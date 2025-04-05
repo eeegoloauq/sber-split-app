@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import ScanButton from '../components/MainButtons/Scan.jsx';
 import useFileInput from '../hooks/useFileInput.jsx';
-// import { sendReceiptToBackend } from '../services/api'; 
+// Импортируем функцию для отправки на бэкенд
+import { sendReceiptToBackend } from '../services/api'; 
 import styles from './scanbox.module.css';
 
 // Убраны комментарии и компонент CameraPreview
@@ -14,26 +15,39 @@ function ScanBox() {
 
   const { openGallery, selectedFile, fileError } = useFileInput(); 
 
-  // --- Обработка изображения --- 
-  const handleSendImage = async (imageData, source) => {
-    if (!imageData) return;
+  // --- Обработка и отправка изображения --- 
+  const handleSendImage = async (file, source) => {
+    if (!file) return;
 
     setIsLoading(true);
     setError(null);
     setResultMessage('');
-    console.log(`Получено изображение из: ${source}`, imageData);
+    console.log(`Получено изображение из: ${source}`, file);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // 1. Создаем FormData
       const formData = new FormData();
-      const fileName = imageData instanceof File ? imageData.name : 'receipt.jpg';
-      formData.append('receiptImage', imageData, fileName);
-      console.log("Подготовлено для отправки (FormData):", formData.get('receiptImage'));
-      setResultMessage(`Изображение из '${source}' (${fileName}) готово к отправке.`);
+      // Добавляем файл под ключом 'file', как ожидает бэкенд
+      formData.append('file', file, file.name); 
+      console.log("Подготовлено FormData для отправки:", formData.get('file'));
+
+      // 2. Вызываем функцию отправки на бэкенд
+      setResultMessage("Отправка чека на сервер..."); // Сообщение об отправке
+      const backendResponse = await sendReceiptToBackend(formData);
+
+      // 3. Обрабатываем успешный ответ от бэкенда
+      console.log("Успешный ответ от бэкенда:", backendResponse);
+      // Отображаем сообщение об успехе (можно добавить больше деталей из backendResponse)
+      setResultMessage(`Чек успешно обработан! ID: ${backendResponse?.id || 'N/A'}`); 
+
     } catch (err) {
-      console.error("Ошибка при обработке/отправке:", err);
-      setError("Произошла ошибка при обработке изображения.");
+      // 4. Обрабатываем ошибку (сетевую или от бэкенда)
+      console.error("Ошибка при отправке/обработке чека:", err);
+      // Отображаем сообщение об ошибке, полученное из api.js
+      setError(err.message || "Произошла неизвестная ошибка при отправке."); 
+      setResultMessage(''); // Сбрасываем сообщение об успехе/отправке
     } finally {
+      // 5. В любом случае убираем статус загрузки
       setIsLoading(false);
     }
   };
@@ -52,11 +66,12 @@ function ScanBox() {
   useEffect(() => {
     console.log("ScanBox useEffect: selectedFile изменился", selectedFile);
     if (selectedFile) {
-      handleSendImage(selectedFile, 'галерея');
+      // Вызываем новую функцию обработки и отправки
+      handleSendImage(selectedFile, 'галерея'); 
     }
   }, [selectedFile]);
 
-  // Эффект для обработки ошибки
+  // Эффект для обработки ошибки из useFileInput
   useEffect(() => {
     if (fileError) {
       console.error("Ошибка из useFileInput:", fileError);
@@ -67,9 +82,9 @@ function ScanBox() {
   // --- Рендер компонента --- 
   return (
       <div className={styles.scanBox}> 
-        {isLoading && <p className={styles.statusMessage}>Обработка...</p>} 
+        {isLoading && <p className={styles.statusMessage}>{resultMessage || 'Загрузка...'}</p>} 
         {!isLoading && error && <p className={`${styles.statusMessage} ${styles.errorMessage}`}>{error}</p>} 
-        {!isLoading && resultMessage && <p className={`${styles.statusMessage} ${styles.successMessage}`}>{resultMessage}</p>} 
+        {!isLoading && !error && resultMessage && <p className={`${styles.statusMessage} ${styles.successMessage}`}>{resultMessage}</p>} 
         <ScanButton onClick={handleSelectFileClick} disabled={isLoading} /> 
       </div>
   );
