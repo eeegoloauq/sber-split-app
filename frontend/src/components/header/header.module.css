@@ -10,7 +10,7 @@
     position: sticky;
     top: 0;
     left: 0;
-    font-weight: bold;
+    font-weight: bold; /* жирность текста */
 }
 .headerBrandLink {
     color: white;
