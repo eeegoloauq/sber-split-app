@@ -1,0 +1,49 @@
+.receiptContainer {
+    padding: 2rem; 
+    max-width: 1200px;      
+    margin: 0 auto;     
+}
+
+.receiptContainer h1 {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: #1f2937;
+}
+
+
+.columnsContainer {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: nowrap;
+}
+
+.participantsColumn {
+    flex: 0 0 auto;
+    width: 350px;
+}
+
+.itemsColumn {
+    flex: 1;
+    min-width: 0;
+}
+
+.participantsColumn h2,
+.itemsColumn h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #1f2937;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+
+@media (max-width: 768px) {
+    .columnsContainer {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .participantsColumn {
+        width: 100%;
+    }
+}

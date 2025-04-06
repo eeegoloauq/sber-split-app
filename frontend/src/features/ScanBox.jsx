@@ -85,6 +85,8 @@ function ScanBox() {
         {isLoading && <p className={styles.statusMessage}>{resultMessage || 'Загрузка...'}</p>} 
         {!isLoading && error && <p className={`${styles.statusMessage} ${styles.errorMessage}`}>{error}</p>} 
         {!isLoading && !error && resultMessage && <p className={`${styles.statusMessage} ${styles.successMessage}`}>{resultMessage}</p>} 
+        <div className={styles.Welcome}>Добро пожаловать</div>
+        <div className={styles.WelcomeText}>Отсканируйте чек, чтобы разделить его между друзьями</div>
         <ScanButton onClick={handleSelectFileClick} disabled={isLoading} /> 
       </div>
   );
