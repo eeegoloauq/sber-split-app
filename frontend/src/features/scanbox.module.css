@@ -29,3 +29,24 @@
     margin-right: auto;
     margin-bottom: 0.5rem;
 }
+
+.statusMessage {
+    margin: 0.5rem 0;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    text-align: center;
+    width: 100%;
+}
+
+.errorMessage {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #d32f2f;
+    border: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+.successMessage {
+    background-color: rgba(0, 128, 0, 0.1);
+    color: #388e3c;
+    border: 1px solid rgba(0, 128, 0, 0.2);
+}
