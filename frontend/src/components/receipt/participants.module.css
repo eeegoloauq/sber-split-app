@@ -13,4 +13,89 @@
     margin-bottom: 2rem;
 }
 
+.participantItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
 
+.avatarCircle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    color: #64748b;
+    font-size: 16px;
+}
+
+.participantInfo {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.participantName {
+    font-weight: 500;
+    color: #374151;
+    font-size: 16px;
+}
+
+.participantAmount {
+    color: #10b981;
+    font-weight: 500;
+}
+
+.addParticipantRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 8px 0;
+    color: #6b7280;
+}
+
+.addCircle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #9ca3af;
+}
+
+.addForm {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.nameInput {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.addButton {
+    padding: 8px 16px;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.addButton:hover {
+    background-color: #059669;
+}

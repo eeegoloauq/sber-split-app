@@ -19,7 +19,12 @@
 
 .participantsColumn {
     flex: 0 0 auto;
-    width: 350px;
+    width: 370px;
+    position: sticky;
+    top: 92px;
+    align-self: flex-start; 
+    max-height: 100vh;
+    overflow-y: auto; 
 }
 
 .itemsColumn {
@@ -45,5 +50,14 @@
     
     .participantsColumn {
         width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .participantsColumn {
+        position: relative;
+        top: 0;
+        max-height: none;
+        overflow-y: visible;
     }
 }

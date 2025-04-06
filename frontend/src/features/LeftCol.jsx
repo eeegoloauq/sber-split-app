@@ -4,11 +4,11 @@ import Summary from '../components/receipt/summary.jsx';
 // import { sendReceiptToBackend } from '../services/api'; 
 import styles from './LeftCol.module.css';
 
-const LeftCol = () => {
+const LeftCol = ({totalAmount, participants, onAddParticipant}) => {
     return (
         <div className={styles.leftColContainer}>
-            <Participants />
-            <Summary />
+            <Participants participants={participants} onAddParticipant={onAddParticipant} />
+            <Summary totalAmount={totalAmount} />
         </div>
     );
 };

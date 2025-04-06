@@ -16,13 +16,33 @@
     color: white;
     font-size: 1.5em;
     text-decoration: none;
-    margin-right: 1rem;
 }
 .headerContainer {
-    justify-content: flex-start;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     max-width: 1200px;
     width: 100%; 
+    padding: 0 2rem;
+}
+
+
+.navLinks {
+    display: flex;
     gap: 1rem;
 }
+
+.navLink {
+    color: rgba(255, 255, 255, 0.904);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+}
+
+.navLink:hover {
+    color: white;
+}
+
+
 

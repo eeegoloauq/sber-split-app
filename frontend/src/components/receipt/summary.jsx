@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './summary.module.css';
-const Summary = ({ totalAmount = 1000 }) => {
+const Summary = ({totalAmount}) => {
     return (
         
         <div className={styles.summaryContainer}>
