@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: 0.5rem;
     height: auto;
-    max-width: 350px;
+    max-width: 370px;
     justify-content: center;
     align-items: stretch;
     padding: 1rem;
@@ -29,13 +29,12 @@
 }
 
 .summaryAmount {
-    font-size: 1.2rem;  
-    font-weight: 600;
+    font-size: 1.3rem;  
+    font-weight: bold;
     color: var(--green-color);
 }
 
 .summaryButton {
-    min-width: 320px;
     height: 40px;
     background-color: var(--green-color);
     font-size: 1rem;

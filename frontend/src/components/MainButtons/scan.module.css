@@ -10,5 +10,5 @@
     transition: background-color 0.3s ease;
 }
 .ScanButton:hover {
-    background-color: darkgreen;
+    background-color: var(--green-dark);
 }

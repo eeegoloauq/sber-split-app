@@ -5,6 +5,8 @@ import useFileInput from '../hooks/useFileInput.jsx';
 // Импортируем функцию для отправки на бэкенд
 import { sendReceiptToBackend } from '../services/api'; 
 import styles from './scanbox.module.css';
+// Импортируем компонент для кадрирования изображения
+import ImageCropper from '../components/ImageCropper';
 
 // Убраны комментарии и компонент CameraPreview
 
@@ -12,6 +14,8 @@ function ScanBox() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [resultMessage, setResultMessage] = useState('');
+  const [showCropper, setShowCropper] = useState(false);
+  const [selectedImageForCrop, setSelectedImageForCrop] = useState(null);
 
   const { openGallery, selectedFile, fileError } = useFileInput(); 
 
@@ -60,14 +64,32 @@ function ScanBox() {
     openGallery();
   };
 
+  // --- Обработчики для кропа изображения ---
+  const handleCropComplete = (croppedImage) => {
+    console.log("Изображение обрезано:", croppedImage);
+    setShowCropper(false);
+    setSelectedImageForCrop(null);
+    // Отправляем обрезанное изображение на бэкенд
+    handleSendImage(croppedImage, 'кроп-галерея');
+  };
+
+  const handleCropCancel = () => {
+    console.log("Кадрирование отменено");
+    setShowCropper(false);
+    setSelectedImageForCrop(null);
+    setError(null);
+    setResultMessage('');
+  };
+
   // --- Эффекты --- 
 
   // Эффект для обработки выбранного файла
   useEffect(() => {
     console.log("ScanBox useEffect: selectedFile изменился", selectedFile);
     if (selectedFile) {
-      // Вызываем новую функцию обработки и отправки
-      handleSendImage(selectedFile, 'галерея'); 
+      // Вместо отправки показываем интерфейс для кадрирования
+      setSelectedImageForCrop(selectedFile);
+      setShowCropper(true);
     }
   }, [selectedFile]);
 
@@ -80,15 +102,27 @@ function ScanBox() {
   }, [fileError]);
 
   // --- Рендер компонента --- 
+  if (showCropper && selectedImageForCrop) {
+    // If cropping, render ONLY the cropper
+    return (
+      <ImageCropper 
+        image={selectedImageForCrop}
+        onCropComplete={handleCropComplete}
+        onCancel={handleCropCancel}
+      />
+    );
+  }
+
+  // Otherwise, render the original ScanBox content
   return (
-      <div className={styles.scanBox}> 
-        {isLoading && <p className={styles.statusMessage}>{resultMessage || 'Загрузка...'}</p>} 
-        {!isLoading && error && <p className={`${styles.statusMessage} ${styles.errorMessage}`}>{error}</p>} 
-        {!isLoading && !error && resultMessage && <p className={`${styles.statusMessage} ${styles.successMessage}`}>{resultMessage}</p>} 
-        <div className={styles.Welcome}>Добро пожаловать</div>
-        <div className={styles.WelcomeText}>Отсканируйте чек, чтобы разделить его между друзьями</div>
-        <ScanButton onClick={handleSelectFileClick} disabled={isLoading} /> 
-      </div>
+    <div className={styles.scanBox}> 
+      {isLoading && <p className={styles.statusMessage}>{resultMessage || 'Загрузка...'}</p>} 
+      {!isLoading && error && <p className={`${styles.statusMessage} ${styles.errorMessage}`}>{error}</p>} 
+      {!isLoading && !error && resultMessage && <p className={`${styles.statusMessage} ${styles.successMessage}`}>{resultMessage}</p>} 
+      <div className={styles.Welcome}>Добро пожаловать</div>
+      <div className={styles.WelcomeText}>Отсканируйте чек, чтобы разделить его между друзьями</div>
+      <ScanButton onClick={handleSelectFileClick} disabled={isLoading} /> 
+    </div>
   );
 }
 
