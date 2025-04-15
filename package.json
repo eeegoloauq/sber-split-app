@@ -1,0 +1,17 @@
+{
+  "name": "sber-split-app",
+  "version": "1.0.0",
+  "description": "A receipt scanning and bill splitting application",
+  "main": "index.js",
+  "scripts": {
+    "start:backend": "cd back && npm start",
+    "start:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "install:all": "npm install && cd back && npm install && cd ../frontend && npm install"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+} 

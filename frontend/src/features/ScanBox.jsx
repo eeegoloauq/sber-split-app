@@ -1,5 +1,6 @@
 // frontend/src/features/ScanBox.jsx
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ScanButton from '../components/MainButtons/Scan.jsx';
 import useFileInput from '../hooks/useFileInput.jsx';
 // Импортируем функцию для отправки на бэкенд
@@ -16,6 +17,7 @@ function ScanBox() {
   const [resultMessage, setResultMessage] = useState('');
   const [showCropper, setShowCropper] = useState(false);
   const [selectedImageForCrop, setSelectedImageForCrop] = useState(null);
+  const navigate = useNavigate();
 
   const { openGallery, selectedFile, fileError } = useFileInput(); 
 
@@ -41,8 +43,15 @@ function ScanBox() {
 
       // 3. Обрабатываем успешный ответ от бэкенда
       console.log("Успешный ответ от бэкенда:", backendResponse);
-      // Отображаем сообщение об успехе (можно добавить больше деталей из backendResponse)
-      setResultMessage(`Чек успешно обработан! ID: ${backendResponse?.id || 'N/A'}`); 
+      
+      // Если у нас есть объект receiptData с элементами, переходим на страницу чека
+      if (backendResponse?.receiptData?.items) {
+        // Переходим на страницу чека с ID чека
+        navigate(`/receipt/${backendResponse.id}`);
+      } else {
+        // Отображаем сообщение об успехе (можно добавить больше деталей из backendResponse)
+        setResultMessage(`Чек успешно обработан! ID: ${backendResponse?.id || 'N/A'}`); 
+      }
 
     } catch (err) {
       // 4. Обрабатываем ошибку (сетевую или от бэкенда)

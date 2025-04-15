@@ -1,0 +1,85 @@
+{
+  "items": [
+    {
+      "name": "Облепиховый 800мл",
+      "quantity": 1,
+      "total_item_price": 385
+    },
+    {
+      "name": "Пиво Бланш де Брю ссель",
+      "quantity": 1,
+      "total_item_price": 545
+    },
+    {
+      "name": "Суп лапша с КУРИЦ ей",
+      "quantity": 1,
+      "total_item_price": 350
+    },
+    {
+      "name": "Салат парна с ГРУ шей",
+      "quantity": 1,
+      "total_item_price": 550
+    },
+    {
+      "name": "Овощной салат со реховой заправкой 250 гр",
+      "quantity": 1,
+      "total_item_price": 410
+    },
+    {
+      "name": "Люля Фирменный до и Хинкали 200 гр (из баранины с пе чеными овощами)",
+      "quantity": 1,
+      "total_item_price": 935
+    },
+    {
+      "name": "КЕГ Ирландский эл 0,500 ь 1 л",
+      "quantity": 0.5,
+      "total_item_price": 245
+    },
+    {
+      "name": "Бефстроганов из г ОВЯДИНЫ",
+      "quantity": 1,
+      "total_item_price": 915
+    },
+    {
+      "name": "Рулеты из баклажа на",
+      "quantity": 1,
+      "total_item_price": 455
+    },
+    {
+      "name": "Иджеван Тут 50 мл",
+      "quantity": 2,
+      "total_item_price": 750
+    },
+    {
+      "name": "КЕГ Фирменное фил 0,500 ьр 1 л",
+      "quantity": 0.5,
+      "total_item_price": 245
+    },
+    {
+      "name": "Лаваш 1 шт",
+      "quantity": 1,
+      "total_item_price": 100
+    },
+    {
+      "name": "Манго наракуйя",
+      "quantity": 1,
+      "total_item_price": 385
+    },
+    {
+      "name": "КЕГ Ирландский эл 0,500 ь 1 л",
+      "quantity": 0.5,
+      "total_item_price": 245
+    },
+    {
+      "name": "Лепешка с сыром И зеленью",
+      "quantity": 1,
+      "total_item_price": 375
+    },
+    {
+      "name": "КЕГ Ирландский эл 0,500 ь 1 л",
+      "quantity": 0.5,
+      "total_item_price": 245
+    }
+  ],
+  "grand_total": 7135
+}

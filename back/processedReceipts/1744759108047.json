@@ -1,0 +1,70 @@
+{
+  "items": [
+    {
+      "name": "Коллинс стаут Pint",
+      "quantity": 1,
+      "total_item_price": 620
+    },
+    {
+      "name": "Панк ИПА Pint",
+      "quantity": 1,
+      "total_item_price": 690
+    },
+    {
+      "name": "Бургер Классический",
+      "quantity": 1,
+      "total_item_price": 690
+    },
+    {
+      "name": "Чизбургер",
+      "quantity": 1,
+      "total_item_price": 790
+    },
+    {
+      "name": "Картофель ФРИ",
+      "quantity": 2,
+      "total_item_price": 740
+    },
+    {
+      "name": "Блэк Свон Сессион ИПА\nPint",
+      "quantity": 1,
+      "total_item_price": 440
+    },
+    {
+      "name": "Штигель Вайс Pint",
+      "quantity": 2,
+      "total_item_price": 1200
+    },
+    {
+      "name": "Чешский Пилзнер Pint",
+      "quantity": 1,
+      "total_item_price": 600
+    },
+    {
+      "name": "Белуга 40 мл",
+      "quantity": 2.5,
+      "total_item_price": 875
+    },
+    {
+      "name": "Свиные ребра медово-\nгорчичные",
+      "quantity": 1,
+      "total_item_price": 870
+    },
+    {
+      "name": "Том Ян Кха",
+      "quantity": 1,
+      "total_item_price": 450
+    },
+    {
+      "name": "Хлеб",
+      "quantity": 1,
+      "total_item_price": 250
+    },
+    {
+      "name": "Миндаль Таn",
+      "quantity": 1,
+      "total_item_price": 250
+    }
+  ],
+  "grand_total": 7232.75
+}

@@ -1,41 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import styles from './ReceiptPage.module.css';
 import LeftCol from '../features/LeftCol.jsx';
 import RightCol from '../features/RightCol.jsx';
-
-const testItems = [
-    { id: 1, name: 'Кофе Латте', price: 340.00 },
-    { id: 2, name: 'Круассан с миндалем', price: 120.50 },
-    { id: 3, name: 'Салат Цезарь', price: 350.00 },
-    { id: 4, name: 'Чизкейк', price: 210.00 },
-    { id: 5, name: 'Чизкейк', price: 210.00 },
-    { id: 6, name: 'Чизкейк', price: 210.00 },
-    { id: 7, name: 'Чизкейк', price: 210.00 },
-    { id: 8, name: 'Чизкейк', price: 210.00 },
-    { id: 9, name: 'Чизкейк', price: 210.00 },
-    
-  ];
-  
-const totalAmount = testItems.reduce((sum, item) => sum + item.price, 0);
+import { getReceiptById } from '../services/api';
 
 function ReceiptPage() {
-    const receiptId = 'test-12345'; 
-    console.log("Рендер страницы чека для ID:", receiptId);
+    const { receiptId } = useParams();
+    console.log("Rendering receipt page for ID:", receiptId);
+
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [receiptData, setReceiptData] = useState(null);
+    const [items, setItems] = useState([]);
+    const [totalAmount, setTotalAmount] = useState(0);
 
     const [participants, setParticipants] = useState([
-        { id: 1, name: 'Анна', amount: 0 },
-        { id: 2, name: 'Иван', amount: 0 },
-        { id: 3, name: 'Мария', amount: 0 }
+        { id: 1, name: 'Anna', amount: 0 },
+        { id: 2, name: 'Ivan', amount: 0 },
+        { id: 3, name: 'Maria', amount: 0 }
     ]);
 
     const [itemAssignments, setItemAssignments] = useState({});
 
+    // Fetch receipt data when component mounts or receiptId changes
+    useEffect(() => {
+        async function fetchReceiptData() {
+            if (!receiptId) return;
+            
+            setLoading(true);
+            setError(null);
+            
+            try {
+                const data = await getReceiptById(receiptId);
+                console.log("Received receipt data:", data);
+                setReceiptData(data);
+                
+                // Format items for our component
+                if (data.items && Array.isArray(data.items)) {
+                    const formattedItems = data.items.map((item, index) => ({
+                        id: index + 1,
+                        name: item.name,
+                        price: item.total_item_price,
+                        quantity: item.quantity || 1
+                    }));
+                    setItems(formattedItems);
+                    setTotalAmount(data.grand_total || 0);
+                }
+            } catch (err) {
+                console.error("Error fetching receipt:", err);
+                setError(err.message || "Failed to load receipt data");
+            } finally {
+                setLoading(false);
+            }
+        }
+        
+        fetchReceiptData();
+    }, [receiptId]);
 
     const handleSelectPayer = (itemId, selectedPayerIds, amountPerPerson) => {
-
         const updatedParticipants = [...participants];
         
-
         const prevAssignment = itemAssignments[itemId] || { payerIds: [], amountPerPerson: 0 };
 
         if (prevAssignment.payerIds.length > 0) {
@@ -73,14 +98,37 @@ function ReceiptPage() {
         }
     };
 
+    if (loading) {
+        return (
+            <div className={styles.receiptContainer}>
+                <div className={styles.loadingState}>Loading receipt data...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className={styles.receiptContainer}>
+                <div className={styles.errorState}>
+                    <h2>Error loading receipt</h2>
+                    <p>{error}</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className={styles.receiptContainer}>
-            {/* <h1>Детали чека #{receiptId}</h1> */}
+            <div className={styles.receiptHeader}>
+                <h1>Receipt #{receiptId}</h1>
+                <div className={styles.receiptTotal}>
+                    
+                </div>
+            </div>
 
             <div className={styles.columnsContainer}>
-                
                 <div className={styles.participantsColumn}> 
-                    <h2>Участники</h2>
+                    <h2>Participants</h2>
                     <LeftCol 
                         totalAmount={totalAmount} 
                         participants={participants} 
@@ -89,15 +137,13 @@ function ReceiptPage() {
                 </div>
 
                 <div className={styles.itemsColumn}> 
-                    <h2>Позиции чека</h2>
-                        
+                    <h2>Receipt Items</h2>
                     <RightCol 
-                        items={testItems} 
+                        items={items} 
                         participants={participants} 
                         onSelectPayer={handleSelectPayer}
                     />
                 </div>
-
             </div>
         </div>
     );

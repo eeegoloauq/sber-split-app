@@ -16,46 +16,56 @@ const AVATAR_COLORS = [
 ];
 
 const PositionItem = ({ item, participants = [], onSelectPayer = () => {} }) => { 
-    // Состояние для хранения выбранных участников для этого товара
+    // State to store selected participants for this item
     const [selectedPayers, setSelectedPayers] = useState([]);
     
     if (!item) {
         return null;
     }
 
-    // Функция для выбора/отмены выбора участника
+    // Function to select/deselect a participant
     const togglePayer = (participant) => {
         const participantId = participant.id;
         let newSelectedPayers;
         
         if (selectedPayers.includes(participantId)) {
-            // Если уже выбран - убираем
+            // If already selected - remove
             newSelectedPayers = selectedPayers.filter(id => id !== participantId);
         } else {
-            // Если не выбран - добавляем
+            // If not selected - add
             newSelectedPayers = [...selectedPayers, participantId];
         }
         
         setSelectedPayers(newSelectedPayers);
         
-        // Рассчитываем сумму на человека (равномерно между всеми выбранными)
+        // Calculate amount per person (evenly between all selected)
         const amountPerPerson = newSelectedPayers.length > 0 
             ? item.price / newSelectedPayers.length 
             : 0;
             
-        // Вызываем родительскую функцию для обновления сумм
+        // Call parent function to update amounts
         onSelectPayer(item.id, newSelectedPayers, amountPerPerson);
+    };
+
+    // Format price with currency
+    const formatPrice = (price) => {
+        return `${price.toFixed(2)} ₽`;
     };
 
     return (
         <div className={styles.positionItem}> 
             <div className={styles.itemHeader}> 
-                <h2>{item.name}</h2>
-                <div className={styles.price}>{item.price} ₽</div> 
+                <div className={styles.itemInfo}>
+                    <h2>{item.name}</h2>
+                    {item.quantity && item.quantity !== 1 && (
+                        <div className={styles.quantity}>x{item.quantity}</div>
+                    )}
+                </div>
+                <div className={styles.price}>{formatPrice(item.price)}</div> 
             </div>
             <div className={styles.whoPays}> 
                 <div className={styles.whoPaysFlex}>
-                    <span className={styles.whoPaysLabel}>Кто платит:</span>
+                    <span className={styles.whoPaysLabel}>Who pays:</span>
                     
                     <div className={styles.payerAvatars}>
                         {participants.map((participant, index) => {
@@ -76,6 +86,12 @@ const PositionItem = ({ item, participants = [], onSelectPayer = () => {} }) => 
                         })}
                     </div>
                 </div>
+                
+                {selectedPayers.length > 0 && (
+                    <div className={styles.splitInfo}>
+                        {formatPrice(item.price / selectedPayers.length)} per person
+                    </div>
+                )}
             </div>
         </div>  
     );
