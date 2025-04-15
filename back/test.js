@@ -17,7 +17,7 @@ async function run() {
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
   const prompt =
-    "Write an advertising jingle showing how the product in the first image could solve the problems shown in the second two images.";
+    "This is a bill from a restaurant. Your task is to find the price of  the meals, firstly analyse line by line  what is a meal in the check,if there is non meal fields than dont put them.fields like bonus shouldnt go in the check. then find the corresponding price then,create a csv with the table meal, amount, price and at the bottom the final price. DO this like your life depends on it";
 
   const imageParts = [
     fileToGenerativePart("../checks/all (1).jpg", "image/jpeg"),
