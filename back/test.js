@@ -1,48 +1,112 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 const fs = require("fs");
 const path = require("path");
+const https = require("https");
 
-const apiKey =
-  process.env.GOOGLE_API_KEY || "AIzaSyADrldInv0tdpC8F2Xcf7opHOLJy8XEmMs";
-const modelName = "gemini-1.5-flash-latest";
+const apiKey = process.env.GOOGLE_API_KEY || "AIzaSyADrldInv0tdpC8F2Xcf7opHOLJy8XEmMs";
+const modelName = "gemini-2.0-flash";
 const imageFilePath = "../checks/all (3).jpg";
 const outputJsonFile = "output.json";
 
-const genAI = new GoogleGenerativeAI(apiKey);
+// Proxy configuration
+const PROXY_URL = "https://gemini-proxy.zhora-solovev-2017.workers.dev";
+const API_ENDPOINT = "/v1beta/models/${modelName}:generateContent";
 
-function fileToGenerativePart(filePath, mimeType) {
+function fileToBase64(filePath) {
   const absolutePath = path.resolve(__dirname, filePath);
   console.log(`Reading image file from: ${absolutePath}`);
   if (!fs.existsSync(absolutePath)) {
     throw new Error(`Image file not found at: ${absolutePath}`);
   }
-  return {
-    inlineData: {
-      data: Buffer.from(fs.readFileSync(absolutePath)).toString("base64"),
-      mimeType,
-    },
-  };
+  return Buffer.from(fs.readFileSync(absolutePath)).toString("base64");
+}
+
+function makeRequest(url, data) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const req = https.request(url, options, (res) => {
+      let responseData = "";
+      res.on("data", (chunk) => {
+        responseData += chunk;
+      });
+      res.on("end", () => {
+        try {
+          const parsedData = JSON.parse(responseData);
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            resolve(parsedData);
+          } else {
+            console.error("Response data:", responseData);
+            reject(new Error(`Request failed with status code ${res.statusCode}: ${JSON.stringify(parsedData)}`));
+          }
+        } catch (error) {
+          console.error("Raw response:", responseData);
+          reject(new Error(`Failed to parse response: ${error.message}`));
+        }
+      });
+    });
+
+    req.on("error", (error) => {
+      reject(error);
+    });
+
+    req.write(JSON.stringify(data));
+    req.end();
+  });
 }
 
 async function run() {
   try {
     console.log(`Using model: ${modelName}`);
-    const model = genAI.getGenerativeModel({ model: modelName });
 
     const prompt =
       "Analyze the restaurant bill image. Extract only the meal/drink items and prices. Ignore other lines. Be careful with spaced prices (e.g., '1 400' is 1400). Output a JSON object with two keys: 'meals' and 'total'. The 'meals' key should be an array of objects, each containing 'name', 'amount', and 'price' keys. Include the final total price under the 'total' key.  Respond in valid JSON format.";
 
     console.log("Preparing image data...");
-    const imageParts = [fileToGenerativePart(imageFilePath, "image/jpeg")];
+    const imageBase64 = fileToBase64(imageFilePath);
 
-    console.log("Sending request to Gemini API...");
-    const result = await model.generateContent([prompt, ...imageParts]);
-    const response = result.response;
+    // Prepare request payload
+    const requestData = {
+      contents: [
+        {
+          parts: [
+            {
+              text: prompt
+            },
+            {
+              inline_data: {
+                mime_type: "image/jpeg",
+                data: imageBase64
+              }
+            }
+          ]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.4,
+        topK: 32,
+        topP: 1,
+        maxOutputTokens: 4096,
+      }
+    };
 
-    if (!response || !response.text) {
+    // Use the proxy URL to access the Google API
+    const targetEndpoint = `/v1beta/models/${modelName}:generateContent`;
+    const requestUrl = `${PROXY_URL}${targetEndpoint}?key=${apiKey}`;
+
+    console.log("Sending request to Gemini API via proxy...");
+    console.log(`Request URL: ${requestUrl}`);
+    const result = await makeRequest(requestUrl, requestData);
+    
+    if (!result || !result.candidates || !result.candidates[0] || !result.candidates[0].content) {
       console.error("ERROR: Failed to get text response from API.");
-      const blockReason = response?.promptFeedback?.blockReason;
-      const safetyRatings = response?.candidates?.[0]?.safetyRatings;
+      console.error("API Response:", JSON.stringify(result, null, 2));
+      const blockReason = result?.promptFeedback?.blockReason;
+      const safetyRatings = result?.candidates?.[0]?.safetyRatings;
       if (blockReason) console.error(`Reason: ${blockReason}`);
       if (safetyRatings)
         console.error(
@@ -51,8 +115,11 @@ async function run() {
       return;
     }
 
+    // Extract text from response
+    const responseText = result.candidates[0].content.parts[0].text;
+
     try {
-      const jsonData = JSON.parse(response.text());
+      const jsonData = JSON.parse(responseText);
 
       console.log("\n--- Generated JSON Data ---");
       console.log(JSON.stringify(jsonData, null, 2));
@@ -90,7 +157,7 @@ async function run() {
       }
     } catch (jsonError) {
       console.error("Error parsing JSON:", jsonError);
-      console.error("Raw response text:", response.text()); // Print the raw response for debugging.
+      console.error("Raw response text:", responseText); // Print the raw response for debugging.
     }
   } catch (error) {
     console.error("An error occurred:", error);
