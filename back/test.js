@@ -4,7 +4,7 @@ const https = require("https");
 
 const apiKey = process.env.GOOGLE_API_KEY || "AIzaSyADrldInv0tdpC8F2Xcf7opHOLJy8XEmMs";
 const modelName = "gemini-2.0-flash";
-const imageFilePath = "../checks/all (5).jpg";
+const imageFilePath = "../checks/all (10).jpg";
 const outputJsonFile = "output.json";
 
 // Proxy configuration
@@ -36,6 +36,7 @@ function makeRequest(url, data) {
       });
       res.on("end", () => {
         try {
+          // Attempt to parse directly first, assuming it might be valid JSON
           const parsedData = JSON.parse(responseData);
           if (res.statusCode >= 200 && res.statusCode < 300) {
             resolve(parsedData);
@@ -44,8 +45,13 @@ function makeRequest(url, data) {
             reject(new Error(`Request failed with status code ${res.statusCode}: ${JSON.stringify(parsedData)}`));
           }
         } catch (error) {
-          console.error("Raw response:", responseData);
-          reject(new Error(`Failed to parse response: ${error.message}`));
+          // If direct parsing fails, assume it's the raw text needed later
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+             resolve({ rawText: responseData }); // Resolve with raw text for later processing
+          } else {
+             console.error("Raw response on error:", responseData);
+             reject(new Error(`Request failed with status code ${res.statusCode}. Raw response: ${responseData}`));
+          }
         }
       });
     });
@@ -57,6 +63,41 @@ function makeRequest(url, data) {
     req.write(JSON.stringify(data));
     req.end();
   });
+}
+
+// Function to verify the total sum
+function verifyTotalSum(jsonData) {
+  if (!jsonData || !jsonData.items || !Array.isArray(jsonData.items) || typeof jsonData.grand_total !== 'number') {
+    console.warn("JSON data is missing 'items' array or 'grand_total' number for verification.");
+    return;
+  }
+
+  let calculatedTotal = 0;
+  jsonData.items.forEach((item) => {
+    // Ensure total_item_price exists and is a number
+    if (item.total_item_price != null && typeof item.total_item_price === 'number' && !isNaN(item.total_item_price)) {
+      calculatedTotal += item.total_item_price;
+    } else {
+      console.warn(`Invalid or missing total_item_price ('${item.total_item_price}') for item '${item.name}', skipping in verification.`);
+    }
+  });
+
+  // Round both values to 2 decimal places for comparison
+  calculatedTotal = parseFloat(calculatedTotal.toFixed(2));
+  const grandTotal = parseFloat(jsonData.grand_total.toFixed(2)); // Ensure grand_total is also treated as float
+
+  console.log(`\n--- Verification ---`);
+  console.log(`Calculated Total from items: ${calculatedTotal.toFixed(2)}`);
+  console.log(`Grand Total from receipt:    ${grandTotal.toFixed(2)}`);
+
+  // Use a small tolerance for floating point comparison
+  const tolerance = 0.001;
+  if (Math.abs(calculatedTotal - grandTotal) < tolerance) {
+    console.log("Verification successful: Calculated total matches the grand total.");
+  } else {
+    console.error(`Verification FAILED: Calculated total (${calculatedTotal.toFixed(2)}) does not match the grand total (${grandTotal.toFixed(2)}). Difference: ${(calculatedTotal - grandTotal).toFixed(2)}`);
+  }
+  console.log(`--------------------\n`);
 }
 
 async function run() {
@@ -139,11 +180,30 @@ Analyze the provided image of a Russian restaurant/cafe receipt. Your goal is to
         }
       ],
       generationConfig: {
-        temperature: 0.4,
+        temperature: 0.4, // Lowered temperature for more deterministic output
         topK: 32,
-        topP: 1,
-        maxOutputTokens: 4096,
-      }
+        topP: 0.95, // Adjusted Top P
+        maxOutputTokens: 8192, // Increased max tokens just in case
+        // Ensure response_mime_type is NOT set if expecting JSON in text part
+      },
+       safetySettings: [ // Optional: Adjust safety settings if needed
+         {
+           category: "HARM_CATEGORY_HARASSMENT",
+           threshold: "BLOCK_MEDIUM_AND_ABOVE"
+         },
+         {
+           category: "HARM_CATEGORY_HATE_SPEECH",
+           threshold: "BLOCK_MEDIUM_AND_ABOVE"
+         },
+         {
+           category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+           threshold: "BLOCK_MEDIUM_AND_ABOVE"
+         },
+         {
+           category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+           threshold: "BLOCK_MEDIUM_AND_ABOVE"
+         }
+       ]
     };
 
     // Use the proxy URL to access the Google API
@@ -152,26 +212,45 @@ Analyze the provided image of a Russian restaurant/cafe receipt. Your goal is to
 
     console.log("Sending request to Gemini API via proxy...");
     console.log(`Request URL: ${requestUrl}`);
+    // Send the request expecting potential raw text response
     const result = await makeRequest(requestUrl, requestData);
-    
-    if (!result || !result.candidates || !result.candidates[0] || !result.candidates[0].content) {
-      console.error("ERROR: Failed to get text response from API.");
-      console.error("API Response:", JSON.stringify(result, null, 2));
-      const blockReason = result?.promptFeedback?.blockReason;
-      const safetyRatings = result?.candidates?.[0]?.safetyRatings;
-      if (blockReason) console.error(`Reason: ${blockReason}`);
-      if (safetyRatings)
-        console.error(
-          `Safety Ratings: ${JSON.stringify(safetyRatings, null, 2)}`
-        );
-      return;
+
+    // Check if the response contains the raw text or already parsed content
+    let responseText;
+    if (result && result.rawText) {
+        // If makeRequest returned raw text due to parsing failure
+        responseText = result.rawText;
+    } else if (result && result.candidates && result.candidates[0] && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts[0] && result.candidates[0].content.parts[0].text) {
+        // If makeRequest successfully parsed or API returned structured JSON correctly
+        responseText = result.candidates[0].content.parts[0].text;
+    } else {
+        // Handle unexpected API response structure or errors reported by makeRequest
+        console.error("ERROR: Failed to get a valid text response from API.");
+        console.error("API Response/Error details:", JSON.stringify(result, null, 2));
+        const blockReason = result?.promptFeedback?.blockReason;
+        const safetyRatings = result?.candidates?.[0]?.safetyRatings;
+        if (blockReason) console.error(`Reason: ${blockReason}`);
+        if (safetyRatings)
+          console.error(
+            `Safety Ratings: ${JSON.stringify(safetyRatings, null, 2)}`
+          );
+        return; // Exit if no valid response text found
     }
 
-    // Extract text from response
-    const responseText = result.candidates[0].content.parts[0].text;
+    // Clean the response text: remove potential markdown fences
+    let cleanedText = responseText.trim();
+    const jsonRegex = /^```json\s*([\s\S]*?)\s*```$/;
+    const match = cleanedText.match(jsonRegex);
+    if (match && match[1]) {
+        cleanedText = match[1].trim();
+        console.log("Removed markdown fences from the response.");
+    } else {
+        console.log("No markdown fences detected, using raw response text.");
+    }
 
     try {
-      const jsonData = JSON.parse(responseText);
+      // Attempt to parse the cleaned JSON string
+      const jsonData = JSON.parse(cleanedText);
 
       console.log("\n--- Generated JSON Data ---");
       console.log(JSON.stringify(jsonData, null, 2));
@@ -185,39 +264,28 @@ Analyze the provided image of a Russian restaurant/cafe receipt. Your goal is to
       );
       console.log(`Successfully created JSON file: ${outputJsonFile}`);
 
-      // --- Sum the amounts and print the total ---
-      let totalAmount = 0;
-      if (jsonData.meals && Array.isArray(jsonData.meals)) {
-        jsonData.meals.forEach((item) => {
-          if (item.amount) {
-            const amount = parseFloat(item.amount);
-            if (!isNaN(amount)) {
-              totalAmount += amount;
-            } else {
-              console.warn(
-                `Invalid amount '${item.amount}' found for meal '${item.name}', skipping.`
-              );
-            }
-          }
-        });
+      // Verify the total sum
+      verifyTotalSum(jsonData);
 
-        console.log(`\nTotal Amount of Meals: ${totalAmount.toFixed(2)}`);
-      } else {
-        console.warn(
-          "The 'meals' array is missing or not an array in the JSON response."
-        );
-      }
     } catch (jsonError) {
-      console.error("Error parsing JSON:", jsonError);
-      console.error("Raw response text:", responseText); // Print the raw response for debugging.
+      console.error("Error parsing JSON:", jsonError.message);
+      console.error("Response text that failed parsing:", cleanedText); // Print the cleaned text that failed
+      console.error("Original raw response from API:", responseText); // Print the original raw response for context
     }
   } catch (error) {
-    console.error("An error occurred:", error);
-    if (error.response)
+    console.error("An error occurred in the run function:", error.message);
+    // Check if the error object itself contains response details (e.g., from makeRequest reject)
+    if (error.message.includes("Request failed")) {
+       console.error("Underlying issue likely related to the API request failure detailed above.");
+    } else if (error.response) { // Check for Axios-like response object if applicable
       console.error(
-        "API Response Error:",
+        "API Related Error:",
         JSON.stringify(error.response, null, 2)
       );
+    } else {
+       // Log the full error object if it's not a standard API error structure
+       console.error("Full error object:", error);
+    }
   }
 }
 
