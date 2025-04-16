@@ -23,6 +23,32 @@ function ReceiptPage() {
 
     const [itemAssignments, setItemAssignments] = useState({});
 
+    // Verify the total sum calculation
+    const verifyTotal = (data) => {
+        if (!data || !data.items || !Array.isArray(data.items)) {
+            console.warn("Cannot verify total: Invalid data format");
+            return;
+        }
+
+        let calculatedTotal = 0;
+        data.items.forEach((item) => {
+            if (item.total_item_price != null && typeof item.total_item_price === 'number') {
+                calculatedTotal += item.total_item_price;
+            } else {
+                console.warn(`Invalid price for item '${item.name}', skipping in total calculation`);
+            }
+        });
+
+        calculatedTotal = parseFloat(calculatedTotal.toFixed(2));
+        const grandTotal = data.grand_total ? parseFloat(data.grand_total.toFixed(2)) : 0;
+
+        console.log(`\n--- Receipt Total Verification ---`);
+        console.log(`Calculated sum of all items: ${calculatedTotal.toFixed(2)} ₽`);
+        console.log(`Grand total from receipt: ${grandTotal.toFixed(2)} ₽`);
+        console.log(`Difference: ${(grandTotal - calculatedTotal).toFixed(2)} ₽`);
+        console.log(`----------------------------------\n`);
+    };
+
     // Fetch receipt data when component mounts or receiptId changes
     useEffect(() => {
         async function fetchReceiptData() {
@@ -46,6 +72,9 @@ function ReceiptPage() {
                     }));
                     setItems(formattedItems);
                     setTotalAmount(data.grand_total || 0);
+                    
+                    // Verify and log the total calculation
+                    verifyTotal(data);
                 }
             } catch (err) {
                 console.error("Error fetching receipt:", err);
@@ -122,7 +151,7 @@ function ReceiptPage() {
             <div className={styles.receiptHeader}>
                 <h1>Receipt #{receiptId}</h1>
                 <div className={styles.receiptTotal}>
-                    
+                    {/* Total amount removed from UI as requested */}
                 </div>
             </div>
 
