@@ -84,5 +84,5 @@
     transition: background-color 0.3s ease;
 }
 .summaryButton:hover {
-    background-color: darkgreen;
+    box-shadow: 0 0 10px rgba(75, 211, 154, 0.4);
 }
