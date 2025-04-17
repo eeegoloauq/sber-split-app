@@ -48,11 +48,16 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
     // Prompt for Gemini API (same as in test.js)
     const prompt = `
-**Task:** Analyze the provided image of a Russian restaurant/cafe receipt. Extract a structured list of purchased items (name, quantity, total price per item line) and the final grand total amount.
+**Task:** Analyze the provided image of a Russian restaurant/cafe receipt. Extract a structured list of purchased items (name, quantity, total price per item line), the final grand total amount, and any discounts, service charges, or tips applied.
 
 **Core Instructions:**
 
-1.  **Target Area:** Focus *exclusively* on the section listing purchased items and their final costs, plus the overall total payable amount. Critically, ignore:
+1.  **Target Area:** Focus *exclusively* on the section listing purchased items and their final costs, plus the overall total payable amount, and any clearly labeled lines referring to:
+    *   **Discounts:** Lines containing terms like "Скидка", "Скид.", "скидка по карте", etc.
+    *   **Service charges:** Terms such as "Сервисный сбор", "Обслуживание", "Service", etc.
+    *   **Tips:** Lines labeled "Чаевые", "Tips", "Gratuity", etc.
+    
+    Critically, ignore:
     *   Header/Footer: Establishment details (name, address, TIN), server/cashier info, date/time stamps, VAT summaries, QR codes, tip prompts.
     *   Non-Item Lines: Empty lines, separators, column headers repeated mid-list, purely informational lines without a corresponding item price (e.g., "Bonus applied"), intermediate subtotals appearing before the final grand total.
 
