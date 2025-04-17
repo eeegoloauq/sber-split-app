@@ -39,6 +39,16 @@
     line-height: 1.4;
 }
 
+/* Стиль для текста про СберПрайм */
+.sberPrimeText {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 300px;
+    margin: 0.5rem auto 1rem auto; /* Добавляем немного отступов */
+    line-height: 1.3;
+}
+
 .statusMessage {
     margin: 0.5rem 0;
     padding: 0.75rem 1rem;

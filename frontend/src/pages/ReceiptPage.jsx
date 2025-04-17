@@ -14,7 +14,10 @@ function ReceiptPage() {
     const [receiptData, setReceiptData] = useState(null);
     const [items, setItems] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
-
+    const [serviceFee, setServiceFee] = useState(0);
+    const [discount, setDiscount] = useState(0);
+    const [tips, setTips] = useState(0);
+    const [amount, setAmount] = useState(0);
     const [participants, setParticipants] = useState([
         { id: 1, name: 'Anna', amount: 0 },
         { id: 2, name: 'Ivan', amount: 0 },
@@ -72,7 +75,10 @@ function ReceiptPage() {
                     }));
                     setItems(formattedItems);
                     setTotalAmount(data.grand_total || 0);
-                    
+                    setServiceFee(data.service_fee || 0);
+                    setDiscount(data.discount || 0);
+                    setTips(data.tips || 0);
+                    setAmount(data.amount || 0);
                     // Verify and log the total calculation
                     verifyTotal(data);
                 }
@@ -160,6 +166,10 @@ function ReceiptPage() {
                     <h2>Участники</h2>
                     <LeftCol 
                         totalAmount={totalAmount} 
+                        serviceFee={serviceFee}
+                        discount={discount}
+                        tips={tips}
+                        amount={amount}
                         participants={participants} 
                         onAddParticipant={handleAddParticipant} 
                     />

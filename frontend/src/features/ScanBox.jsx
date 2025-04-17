@@ -130,7 +130,11 @@ function ScanBox() {
       {!isLoading && !error && resultMessage && <p className={`${styles.statusMessage} ${styles.successMessage}`}>{resultMessage}</p>} 
       <div className={styles.Welcome}>Добро пожаловать</div>
       <div className={styles.WelcomeText}>Отсканируйте чек, чтобы разделить его между друзьями</div>
+      
       <ScanButton onClick={handleSelectFileClick} disabled={isLoading} /> 
+      <p className={styles.sberPrimeText}>
+        А с подпиской СберПрайм — кэшбек 5% бонусами за оплату!
+      </p>
     </div>
   );
 }
