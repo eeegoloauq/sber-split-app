@@ -25,6 +25,7 @@ function ReceiptPage() {
     ]);
 
     const [itemAssignments, setItemAssignments] = useState({});
+    const [sberBonusAmount, setSberBonusAmount] = useState(0);
 
     // Verify the total sum calculation
     const verifyTotal = (data) => {
@@ -172,6 +173,9 @@ function ReceiptPage() {
                         amount={amount}
                         participants={participants} 
                         onAddParticipant={handleAddParticipant} 
+                        available={1000}
+                        selectedBonus={sberBonusAmount}
+                        setSelectedBonus={setSberBonusAmount}
                     />
                 </div>
 

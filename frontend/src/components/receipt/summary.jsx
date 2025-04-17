@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './summary.module.css';
-const Summary = ({totalAmount, amount, serviceFee, discount, tips}) => {
+
+const Summary = ({totalAmount, amount, serviceFee, discount, tips, available}) => {
     return (
         
         // Примерная структура (не меняя ваш файл)
@@ -22,6 +23,11 @@ const Summary = ({totalAmount, amount, serviceFee, discount, tips}) => {
             <span className={styles.summaryDiscount}>-{discount} ₽</span>
         </div>
         
+        <div className={styles.summaryRow}>
+            <h3 className={styles.summaryLabel}>СберСпасибо:</h3>
+            <span className={styles.summaryValue}>{available} ₽</span>
+        </div>
+
         <div className={`${styles.summaryRow} ${styles.withBottomBorder}`}>
             <h3 className={styles.summaryLabel}>Чаевые:</h3>
             <span className={styles.summaryValue}>{tips} ₽</span>
