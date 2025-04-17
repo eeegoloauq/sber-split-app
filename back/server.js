@@ -48,11 +48,16 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
     // Prompt for Gemini API (same as in test.js)
     const prompt = `
-**Task:** Analyze the provided image of a Russian restaurant/cafe receipt. Extract a structured list of purchased items (name, quantity, total price per item line) and the final grand total amount.
+**Task:** Analyze the provided image of a Russian restaurant/cafe receipt. Extract a structured list of purchased items (name, quantity, total price per item line), the final grand total amount, and any discounts, service charges, or tips applied.
 
 **Core Instructions:**
 
-1.  **Target Area:** Focus *exclusively* on the section listing purchased items and their final costs, plus the overall total payable amount. Critically, ignore:
+1.  **Target Area:** Focus *exclusively* on the section listing purchased items and their final costs, plus the overall total payable amount, and any clearly labeled lines referring to:
+    *   **Discounts:** Lines containing terms like "Скидка", "Скид.", "скидка по карте", etc.
+    *   **Service charges:** Terms such as "Сервисный сбор", "Обслуживание", "Service", etc.
+    *   **Tips:** Lines labeled "Чаевые", "Tips", "Gratuity", etc.
+    
+    Critically, ignore:
     *   Header/Footer: Establishment details (name, address, TIN), server/cashier info, date/time stamps, VAT summaries, QR codes, tip prompts.
     *   Non-Item Lines: Empty lines, separators, column headers repeated mid-list, purely informational lines without a corresponding item price (e.g., "Bonus applied"), intermediate subtotals appearing before the final grand total.
 
@@ -70,9 +75,14 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     *   **\`grand_total\` (Number):** Find and extract the single, **absolute final amount payable** for the entire receipt. Search for labels such as 'ИТОГО К ОПЛАТЕ', 'ИТОГО:', 'ВСЕГО:', 'К оплате'. Be careful to select the *very last* total amount presented, discarding any prior subtotals (like 'Сумма заказа' if a later 'К оплате' exists).
         *   The result *must* be a number.
 
-4.  **Accuracy & Association:** Meticulously link the correct "name", "quantity", and "total_item_price" for *each horizontal line* representing a purchased item. Receipt formatting can be inconsistent; prioritize horizontal data association for each logical entry.
+4.  **Discount / Service Fee / Tips Extraction:**
+    *   **\`discount\` (Number | null):** If a line explicitly indicates a discount (e.g., contains "Скидка"), extract its value as a positive number. If no discount is found, set to \`null\`.
+    *   **\`service_charge\` (Number | null):** If a service fee or service charge appears, extract it. If absent, set to \`null\`.
+    *   **\`tips\` (Number | null):** If a tip amount is shown explicitly, extract it. Otherwise, set to \`null\`.
 
-5.  **Output Format:** Generate **ONLY** a single, valid JSON object. Do **NOT** include any text before or after the JSON object. Do **NOT** wrap the JSON in markdown backticks (\`\`\`). The JSON object must strictly adhere to this structure:
+5.  **Accuracy & Association:** Meticulously link the correct "name", "quantity", and "total_item_price" for *each horizontal line* representing a purchased item. Receipt formatting can be inconsistent; prioritize horizontal data association for each logical entry.
+
+6.  **Output Format:** Generate **ONLY** a single, valid JSON object. Do **NOT** include any text before or after the JSON object. Do **NOT** wrap the JSON in markdown backticks (\`\`\`). The JSON object must strictly adhere to this structure:
 
 \`\`\`json
 {
@@ -84,6 +94,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     }
     // ... more items extracted from the receipt
   ],
+  "discount": NUMBER | null,
+  "service_charge": NUMBER | null,
+  "tips": NUMBER | null,
   "grand_total": NUMBER
 }
 \`\`\`
