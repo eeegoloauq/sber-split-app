@@ -5,6 +5,7 @@
     --green-color: #21a038;
     --green-dark: #1a802e;
     --gray-dark: #e5e5e5;
+    --border-bottom: 1px solid rgba(167, 167, 167, 0.1);
   }
 
 body {

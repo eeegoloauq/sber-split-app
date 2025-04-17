@@ -149,7 +149,7 @@ function ReceiptPage() {
     return (
         <div className={styles.receiptContainer}>
             <div className={styles.receiptHeader}>
-                <h1>Receipt #{receiptId}</h1>
+                <h1>Чек #{receiptId}</h1>
                 <div className={styles.receiptTotal}>
                     {/* Total amount removed from UI as requested */}
                 </div>
@@ -157,7 +157,7 @@ function ReceiptPage() {
 
             <div className={styles.columnsContainer}>
                 <div className={styles.participantsColumn}> 
-                    <h2>Participants</h2>
+                    <h2>Участники</h2>
                     <LeftCol 
                         totalAmount={totalAmount} 
                         participants={participants} 
@@ -166,7 +166,7 @@ function ReceiptPage() {
                 </div>
 
                 <div className={styles.itemsColumn}> 
-                    <h2>Receipt Items</h2>
+                    <h2>Позиции</h2>
                     <RightCol 
                         items={items} 
                         participants={participants} 

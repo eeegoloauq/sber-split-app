@@ -65,7 +65,7 @@ const PositionItem = ({ item, participants = [], onSelectPayer = () => {} }) => 
             </div>
             <div className={styles.whoPays}> 
                 <div className={styles.whoPaysFlex}>
-                    <span className={styles.whoPaysLabel}>Who pays:</span>
+                    <span className={styles.whoPaysLabel}>Кто платит:</span>
                     
                     <div className={styles.payerAvatars}>
                         {participants.map((participant, index) => {
