@@ -1,0 +1,15 @@
+```json
+{
+  "items": [
+    {
+      "name": "Селёдочка",
+      "quantity": 1,
+      "total_item_price": 131.4
+    }
+  ],
+  "discount": null,
+  "service_charge": null,
+  "tips": null,
+  "grand_total": 131.4
+}
+```

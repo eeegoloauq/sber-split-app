@@ -70,6 +70,22 @@ function verifyTotalSum(jsonData) {
     }
   });
 
+  // Apply any discount, service charge, or tips
+  if (jsonData.discount && typeof jsonData.discount === 'number' && !isNaN(jsonData.discount)) {
+    calculatedTotal -= jsonData.discount;
+    console.log(`Applied discount: -${jsonData.discount.toFixed(2)}`);
+  }
+  
+  if (jsonData.service_charge && typeof jsonData.service_charge === 'number' && !isNaN(jsonData.service_charge)) {
+    calculatedTotal += jsonData.service_charge;
+    console.log(`Applied service charge: +${jsonData.service_charge.toFixed(2)}`);
+  }
+  
+  if (jsonData.tips && typeof jsonData.tips === 'number' && !isNaN(jsonData.tips)) {
+    calculatedTotal += jsonData.tips;
+    console.log(`Applied tips: +${jsonData.tips.toFixed(2)}`);
+  }
+
   calculatedTotal = parseFloat(calculatedTotal.toFixed(2));
   const grandTotal = parseFloat(jsonData.grand_total.toFixed(2));
 
