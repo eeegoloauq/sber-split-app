@@ -78,22 +78,6 @@ function verifyTotalSum(jsonData) {
     }
   });
 
-  // Применяем скидки, сервисный сбор или чаевые, если они есть
-  if (jsonData.discount && typeof jsonData.discount === 'number' && !isNaN(jsonData.discount)) {
-    calculatedTotal -= jsonData.discount;
-    console.log(`Применена скидка: -${jsonData.discount.toFixed(2)}`);
-  }
-  
-  if (jsonData.service_charge && typeof jsonData.service_charge === 'number' && !isNaN(jsonData.service_charge)) {
-    calculatedTotal += jsonData.service_charge;
-    console.log(`Применен сервисный сбор: +${jsonData.service_charge.toFixed(2)}`);
-  }
-  
-  if (jsonData.tips && typeof jsonData.tips === 'number' && !isNaN(jsonData.tips)) {
-    calculatedTotal += jsonData.tips;
-    console.log(`Применены чаевые: +${jsonData.tips.toFixed(2)}`);
-  }
-
   calculatedTotal = parseFloat(calculatedTotal.toFixed(2));
   const grandTotal = parseFloat(jsonData.grand_total.toFixed(2));
 
@@ -117,16 +101,11 @@ async function run() {
     console.log(`Файл изображения: ${imageFilePath}`);
 
     const prompt = `
-**Task:** Analyze the provided image of a Russian restaurant/cafe receipt. Extract a structured list of purchased items (name, quantity, total price per item line), the final grand total amount, and any discounts, service charges, or tips applied.
+**Task:** Analyze the provided image of a Russian restaurant/cafe receipt. Extract a structured list of purchased items (name, quantity, total price per item line) and the final grand total amount.
 
 **Core Instructions:**
 
-1.  **Target Area:** Focus *exclusively* on the section listing purchased items and their final costs, plus the overall total payable amount, and any clearly labeled lines referring to:
-    *   **Discounts:** Lines containing terms like "Скидка", "Скид.", "скидка по карте", etc.
-    *   **Service charges:** Terms such as "Сервисный сбор", "Обслуживание", "Service", etc.
-    *   **Tips:** Lines labeled "Чаевые", "Tips", "Gratuity", etc.
-    
-    Critically, ignore:
+1.  **Target Area:** Focus *exclusively* on the section listing purchased items and their final costs, plus the overall total payable amount. Critically, ignore:
     *   Header/Footer: Establishment details (name, address, TIN), server/cashier info, date/time stamps, VAT summaries, QR codes, tip prompts.
     *   Non-Item Lines: Empty lines, separators, column headers repeated mid-list, purely informational lines without a corresponding item price (e.g., "Bonus applied"), intermediate subtotals appearing before the final grand total.
 
@@ -144,14 +123,9 @@ async function run() {
     *   **\`grand_total\` (Number):** Find and extract the single, **absolute final amount payable** for the entire receipt. Search for labels such as 'ИТОГО К ОПЛАТЕ', 'ИТОГО:', 'ВСЕГО:', 'К оплате'. Be careful to select the *very last* total amount presented, discarding any prior subtotals (like 'Сумма заказа' if a later 'К оплате' exists).
         *   The result *must* be a number.
 
-4.  **Discount / Service Fee / Tips Extraction:**
-    *   **\`discount\` (Number | null):** If a line explicitly indicates a discount (e.g., contains "Скидка"), extract its value as a positive number. If no discount is found, set to \`null\`.
-    *   **\`service_charge\` (Number | null):** If a service fee or service charge appears, extract it. If absent, set to \`null\`.
-    *   **\`tips\` (Number | null):** If a tip amount is shown explicitly, extract it. Otherwise, set to \`null\`.
+4.  **Accuracy & Association:** Meticulously link the correct "name", "quantity", and "total_item_price" for *each horizontal line* representing a purchased item. Receipt formatting can be inconsistent; prioritize horizontal data association for each logical entry.
 
-5.  **Accuracy & Association:** Meticulously link the correct "name", "quantity", and "total_item_price" for *each horizontal line* representing a purchased item. Receipt formatting can be inconsistent; prioritize horizontal data association for each logical entry.
-
-6.  **Output Format:** Generate **ONLY** a single, valid JSON object. Do **NOT** include any text before or after the JSON object. Do **NOT** wrap the JSON in markdown backticks (\`\`\`). The JSON object must strictly adhere to this structure:
+5.  **Output Format:** Generate **ONLY** a single, valid JSON object. Do **NOT** include any text before or after the JSON object. Do **NOT** wrap the JSON in markdown backticks (\`\`\`). The JSON object must strictly adhere to this structure:
 
 \`\`\`json
 {
@@ -163,9 +137,6 @@ async function run() {
     }
     // ... more items extracted from the receipt
   ],
-  "discount": NUMBER | null,
-  "service_charge": NUMBER | null,
-  "tips": NUMBER | null,
   "grand_total": NUMBER
 }
 \`\`\`
