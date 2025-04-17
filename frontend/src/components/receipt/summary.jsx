@@ -25,7 +25,7 @@ const Summary = ({totalAmount, amount, serviceFee, discount, tips, available}) =
         
         <div className={styles.summaryRow}>
             <h3 className={styles.summaryLabel}>СберСпасибо:</h3>
-            <span className={styles.summaryValue}>{available} ₽</span>
+            <span className={styles.summaryDiscount}>-{available} ₽</span>
         </div>
 
         <div className={`${styles.summaryRow} ${styles.withBottomBorder}`}>

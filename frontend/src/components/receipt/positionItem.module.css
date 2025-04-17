@@ -48,7 +48,7 @@
 .whoPaysFlex {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    width: 100%;
 }
 
 .whoPaysLabel {
@@ -56,12 +56,14 @@
     color: var(--text-secondary);
     font-weight: 400;
     margin-right: 10px;
+    flex-shrink: 0;
 }
 
 .payerAvatars {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
+    flex-grow: 1;
 }
 
 .payerAvatar {
@@ -85,14 +87,13 @@
 }
 
 .splitInfo {
-    margin-top: 12px;
     font-size: 0.85rem;
     color: #64748b;
-    text-align: right;
     background-color: #f1f5f9;
     padding: 4px 8px;
     border-radius: 4px;
-    display: inline-block;
-    float: right;
+    white-space: nowrap;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 

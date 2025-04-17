@@ -65,7 +65,7 @@
 .summaryDiscount {
     font-size: 1.1rem;
     font-weight: 600; 
-    color: red;
+    color: var(--green-color);
 }
 
 .withBottomBorder {

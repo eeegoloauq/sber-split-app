@@ -26,6 +26,14 @@ function ReceiptPage() {
 
     const [itemAssignments, setItemAssignments] = useState({});
     const [sberBonusAmount, setSberBonusAmount] = useState(0);
+    const [originalTotalAmount, setOriginalTotalAmount] = useState(0);
+
+    // Пересчет итоговой суммы при изменении бонусов СберСпасибо
+    useEffect(() => {
+        // Вычитаем бонусы из общей суммы, но не меньше 0
+        const newTotal = Math.max(0, originalTotalAmount - sberBonusAmount);
+        setTotalAmount(newTotal);
+    }, [sberBonusAmount, originalTotalAmount]);
 
     // Verify the total sum calculation
     const verifyTotal = (data) => {
@@ -76,6 +84,7 @@ function ReceiptPage() {
                     }));
                     setItems(formattedItems);
                     setTotalAmount(data.grand_total || 0);
+                    setOriginalTotalAmount(data.grand_total || 0);
                     setServiceFee(data.service_fee || 0);
                     setDiscount(data.discount || 0);
                     setTips(data.tips || 0);

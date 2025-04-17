@@ -85,13 +85,13 @@ const PositionItem = ({ item, participants = [], onSelectPayer = () => {} }) => 
                             );
                         })}
                     </div>
+                    
+                    {selectedPayers.length > 0 && (
+                        <div className={styles.splitInfo}>
+                            {formatPrice(item.price / selectedPayers.length)} на человека
+                        </div>
+                    )}
                 </div>
-                
-                {selectedPayers.length > 0 && (
-                    <div className={styles.splitInfo}>
-                        {formatPrice(item.price / selectedPayers.length)} per person
-                    </div>
-                )}
             </div>
         </div>  
     );
