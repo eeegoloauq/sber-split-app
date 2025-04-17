@@ -19,6 +19,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+
 }
 
 .summaryTitle {
@@ -32,6 +33,13 @@
     font-size: 1.3rem;  
     font-weight: bold;
     color: var(--green-color);
+}
+
+.summarySubtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 0;
 }
 
 .summaryButton {

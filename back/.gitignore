@@ -2,7 +2,8 @@
 /node_modules
 /dist
 
-
+/uploads/*
+/processedReceipts/*
 # local env files
 .env.local
 .env.*.local
