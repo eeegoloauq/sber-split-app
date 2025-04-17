@@ -69,10 +69,20 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 3.  **Grand Total Extraction:**
     *   **\`grand_total\` (Number):** Find and extract the single, **absolute final amount payable** for the entire receipt. Search for labels such as 'ИТОГО К ОПЛАТЕ', 'ИТОГО:', 'ВСЕГО:', 'К оплате'. Be careful to select the *very last* total amount presented, discarding any prior subtotals (like 'Сумма заказа' if a later 'К оплате' exists).
         *   The result *must* be a number.
+        *     *   **\`service_fee\` (Number):** Extract the service fee from the receipt.
+    *   **\`discount\` (Number):** Extract the discount from the receipt.
+    *   **\`tips\` (Number):** Extract the tips from the receipt.
+    *   **\`amount\` (Number):** Extract the amount from the receipt.
 
 4.  **Accuracy & Association:** Meticulously link the correct "name", "quantity", and "total_item_price" for *each horizontal line* representing a purchased item. Receipt formatting can be inconsistent; prioritize horizontal data association for each logical entry.
 
 5.  **Output Format:** Generate **ONLY** a single, valid JSON object. Do **NOT** include any text before or after the JSON object. Do **NOT** wrap the JSON in markdown backticks (\`\`\`). The JSON object must strictly adhere to this structure:
+
+6.  **Additional Fields:**
+    *   **\`service_fee\` (Number):** Extract the service fee from the receipt.
+    *   **\`discount\` (Number):** Extract the discount from the receipt.
+    *   **\`tips\` (Number):** Extract the tips from the receipt.
+    *   **\`amount\` (Number):** Extract the amount from the receipt.
 
 \`\`\`json
 {
@@ -84,9 +94,21 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     }
     // ... more items extracted from the receipt
   ],
-  "grand_total": NUMBER
+  "grand_total": NUMBER,
+  "service_fee": NUMBER,
+  "discount": NUMBER,
+  "tips": NUMBER,
+  "amount": NUMBER
 }
 \`\`\`
+
+**Example Interpretation:**
+*   Receipt line: \`Пшеничное Н/Ф светлое 0.5л 3х0.5л 900\` (assuming 300 was unit price, now ignored) -> JSON item: \`{ "name": "Пшеничное Н/Ф светлое 0.5л", "quantity": 3, "total_item_price": 900.00 }\`
+*   Receipt line: \`Фирменный бургер Папа Бейде 1 540.00\` -> JSON item: \`{ "name": "Фирменный бургер Папа Бейде", "quantity": 1, "total_item_price": 540.00 }\`
+*   Receipt line: \`Картофель Фри 700.00\` (no quantity shown) -> JSON item: \`{ "name": "Картофель Фри", "quantity": 1, "total_item_price": 700.00 }\`
+
+**Input:** An image of the receipt.
+**Output:** The valid JSON object ONLY.
 `;
 
     // Data for sending through Netlify Function
