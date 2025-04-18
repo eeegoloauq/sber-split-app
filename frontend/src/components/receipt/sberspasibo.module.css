@@ -15,12 +15,17 @@ margin-bottom: 2rem;
 .sberspasiboHeader {
     font-size: 1rem;
     font-weight: 500;
-    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
 }
 
 .sberspasiboAvailable {
     font-size: 0.9rem;
     color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
     margin-bottom: 1rem;
 }
 
@@ -93,4 +98,18 @@ margin-bottom: 2rem;
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-main);
+}
+
+.sberLogo {
+    width: 100px;
+    height: 50px;
+    margin-left: 0.5rem;
+}
+
+.sberspasiboCashback {
+    font-size: 0.9rem;
+    color: white;
+    background-color: var(--green-color);
+    border-radius: 5px;
+    padding: 0.2rem 1rem;
 }

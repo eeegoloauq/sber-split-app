@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './sberspasibo.module.css';
+import sberLogo from '../../assets/sberprime.png';
 
 const Sberspasibo = ({ min = 0, available = 1000, onChange }) => {
     const [selectedAmount, setSelectedAmount] = useState(min);
@@ -25,9 +26,12 @@ const Sberspasibo = ({ min = 0, available = 1000, onChange }) => {
 
     return (
         <div className={styles.sberspasiboContainer}>
-            <div className={styles.sberspasiboHeader}>СберСпасибо</div>
+            <div className={styles.sberspasiboHeader}>СберСпасибо
+                <img src={sberLogo} alt="СберСпасибо" className={styles.sberLogo} />
+            </div>
             <div className={styles.sberspasiboAvailable}>
                 Доступно: {available} бонусов
+                <div className={styles.sberspasiboCashback}>5 %</div>
             </div>
 
             <div className={styles.sliderContainer}>
