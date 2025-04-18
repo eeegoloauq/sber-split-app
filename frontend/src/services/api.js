@@ -1,48 +1,73 @@
 // frontend/src/services/api.js
 
-// URL вашего Flask бэкенда
-// Убедитесь, что он доступен с того места, где вы запускаете фронтенд
-// Если фронтенд и бэкенд на одной машине, localhost:5000 обычно работает.
+// URL of our Express backend
 const API_BASE_URL = 'http://localhost:5000';
 
 /**
- * Отправляет файл чека на бэкенд для обработки.
- * @param {FormData} formData - Объект FormData, содержащий файл под ключом 'file'.
- * @returns {Promise<object>} - Promise, который разрешается с ответом от бэкенда в формате JSON.
- * @throws {Error} - Выбрасывает ошибку, если запрос неудачный или ответ не JSON.
+ * Sends a receipt image to the backend for processing.
+ * @param {FormData} formData - FormData object containing the file under the key 'file'.
+ * @returns {Promise<object>} - Promise that resolves with the response from the backend in JSON format.
+ * @throws {Error} - Throws an error if the request fails or the response is not JSON.
  */
 export const sendReceiptToBackend = async (formData) => {
-  console.log("Отправка данных на:", `${API_BASE_URL}/upload`);
+  console.log("Sending data to:", `${API_BASE_URL}/upload`);
   try {
     const response = await fetch(`${API_BASE_URL}/upload`, {
       method: 'POST',
       body: formData,
-      // Важно: Не устанавливайте заголовок 'Content-Type': 'multipart/form-data' вручную!
-      // Браузер сделает это сам, включая правильный boundary.
+      // Important: Don't set 'Content-Type': 'multipart/form-data' manually!
+      // The browser will do this automatically, including the correct boundary.
     });
 
     if (!response.ok) {
-      // Попытаемся прочитать тело ошибки, если оно есть
+      // Try to read the error body if it exists
       let errorBody = null;
       try {
         errorBody = await response.json();
       } catch (jsonError) {
-        // Ошибка при чтении JSON, используем текстовый статус
-        console.error("Ошибка при чтении JSON из ответа об ошибке:", jsonError);
+        // Error reading JSON, use text status
+        console.error("Error reading JSON from error response:", jsonError);
       }
-      const errorMessage = errorBody?.error || `Ошибка сервера: ${response.status} ${response.statusText}`;
-      console.error("Ошибка ответа сервера:", response.status, errorMessage, errorBody);
+      const errorMessage = errorBody?.error || `Server error: ${response.status} ${response.statusText}`;
+      console.error("Server response error:", response.status, errorMessage, errorBody);
       throw new Error(errorMessage);
     }
 
-    // Если ответ успешен, парсим JSON
+    // If response is successful, parse JSON
     const data = await response.json();
-    console.log("Ответ от бэкенда:", data);
+    console.log("Response from backend:", data);
     return data;
 
   } catch (error) {
-    console.error("Сетевая ошибка или ошибка при отправке:", error);
-    // Перевыбрасываем ошибку, чтобы ее можно было поймать в компоненте
-    throw new Error(error.message || 'Не удалось связаться с сервером');
+    console.error("Network error or error during sending:", error);
+    // Re-throw the error so it can be caught in the component
+    throw new Error(error.message || 'Could not connect to server');
+  }
+};
+
+/**
+ * Fetches a specific receipt by ID.
+ * @param {string} receiptId - The ID of the receipt to fetch.
+ * @returns {Promise<object>} - Promise that resolves with the receipt data.
+ * @throws {Error} - Throws an error if the request fails.
+ */
+export const getReceiptById = async (receiptId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/receipts/${receiptId}`);
+    
+    if (!response.ok) {
+      let errorData = null;
+      try {
+        errorData = await response.json();
+      } catch (e) {
+        // If we can't parse JSON, use status text
+      }
+      throw new Error(errorData?.error || `Failed to fetch receipt: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching receipt:", error);
+    throw error;
   }
 }; 

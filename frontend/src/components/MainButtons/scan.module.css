@@ -1,14 +1,20 @@
 .ScanButton {
-    min-width: 320px;
-    height: 60px;
-    background-color: var(--green-color);
-    font-size: 1.2rem;
-    color: white;   
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  min-width: 320px;
+  height: 60px;
+  background-image: linear-gradient(
+    to right,
+    rgb(100, 238, 97),
+    rgb(50, 184, 211)
+  );
+  /* background-size: 100% 200%; */
+  font-size: 1.2rem;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 .ScanButton:hover {
-    background-color: var(--green-dark);
+  /* animation: gradient 5s ease infinite; */
+  box-shadow: 0 0 10px rgba(75, 211, 154, 0.4);
 }

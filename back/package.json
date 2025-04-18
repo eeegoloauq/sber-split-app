@@ -1,15 +1,20 @@
 {
-  "name": "back",
+  "name": "sber-split-app-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "test.js",
+  "description": "Backend for receipt splitting application",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google/generative-ai": "^0.24.0",
-    "node-fetch": "^2.7.0"
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }

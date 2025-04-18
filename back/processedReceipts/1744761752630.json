@@ -1,0 +1,60 @@
+{
+  "items": [
+    {
+      "name": "КРУЖКЕ ПЕРВОЙ",
+      "quantity": 3,
+      "total_item_price": 0
+    },
+    {
+      "name": "Жигулевское светлое",
+      "quantity": 3,
+      "total_item_price": 840
+    },
+    {
+      "name": "Пшеничное Н/Ф светлое 0.5л",
+      "quantity": 3,
+      "total_item_price": 900
+    },
+    {
+      "name": "КРУЖКА К ПИВ",
+      "quantity": 2,
+      "total_item_price": 700
+    },
+    {
+      "name": "Горчица",
+      "quantity": 2,
+      "total_item_price": 120
+    },
+    {
+      "name": "Чизбургер с",
+      "quantity": 1,
+      "total_item_price": 400
+    },
+    {
+      "name": "Большая Фраерская котлета с картофельным пюре",
+      "quantity": 1,
+      "total_item_price": 650
+    },
+    {
+      "name": "Гозе Томатный 1,0",
+      "quantity": 1,
+      "total_item_price": 630
+    },
+    {
+      "name": "Гозе Томатный 0,5",
+      "quantity": 1,
+      "total_item_price": 330
+    },
+    {
+      "name": "Ржаные гренки с чесноком",
+      "quantity": 1,
+      "total_item_price": 300
+    },
+    {
+      "name": "Сухарики",
+      "quantity": 1,
+      "total_item_price": 100
+    }
+  ],
+  "grand_total": 4970
+}

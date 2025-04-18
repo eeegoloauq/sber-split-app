@@ -1,52 +1,107 @@
 .scanBox {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2.5rem;
-    gap: 1rem;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    max-width: 360px;
-    height: auto;
-    min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  max-width: 360px;
+  height: auto;
+  min-height: 200px;
+  background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.roundLoadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Or specify a width as needed */
+  height: 100%; /* Or specify a height as needed */
+}
+
+.roundSpinner {
+  /*border: 5px solid rgba(0, 255, 0, 0.3); /* Light green border */
+  border-top: 5px solid rgba(0, 255, 0, 0.8); /* Darker green top border */
+  border-radius: 50%;
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* .scanBox:hover {
+    
+} */
 .Welcome {
-    font-size: 1.5em;
-    font-weight: bold;
-    text-align: center;
-    color: var(--text-main);
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
 }
 
 .WelcomeText {
-    font-size: 1.1em;
-    text-align: center;
-    color: var(--text-secondary);
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 0.5rem;
+  font-size: 1.1em;
+  text-align: center;
+  color: var(--text-secondary);
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+/* Стиль для текста про СберПрайм */
+.sberPrimeText {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 300px;
+  margin: 0.5rem auto 1rem auto; /* Добавляем немного отступов */
+  line-height: 1.3;
 }
 
 .statusMessage {
-    margin: 0.5rem 0;
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    text-align: center;
-    width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  text-align: center;
+  width: 100%;
+  animation: fadeIn 0.5s ease;
 }
 
 .errorMessage {
-    background-color: rgba(255, 0, 0, 0.1);
-    color: #d32f2f;
-    border: 1px solid rgba(255, 0, 0, 0.2);
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #d32f2f;
+  border: 1px solid rgba(255, 0, 0, 0.2);
 }
 
 .successMessage {
-    background-color: rgba(0, 128, 0, 0.1);
-    color: #388e3c;
-    border: 1px solid rgba(0, 128, 0, 0.2);
+  background-color: rgba(0, 128, 0, 0.1);
+  color: #388e3c;
+  border: 1px solid rgba(0, 128, 0, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

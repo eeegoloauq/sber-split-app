@@ -1,63 +1,142 @@
+.participantsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.participantsHeader h2 {
+  margin: none;
+}
+.settings {
+  cursor: pointer;
+
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
+}
+
+.settings:hover {
+  transform: rotate(20deg);
+}
+.participantsHeaderDiv {
+  margin: 0;
+  height: 32px;
+  padding: 2px;
+}
+.settingsDropdown {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  z-index: 10;
+  min-width: 220px;
+}
+
+.settingsOption {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.settingsOption:hover {
+  background-color: #f8f9fa;
+}
+
+.participantsHeaderButton {
+  margin-bottom: 1rem;
+}
+
 .receiptContainer {
-    padding: 2rem; 
-    max-width: 1200px;      
-    margin: 0 auto;     
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 16px;
 }
 
 .receiptContainer h1 {
-    text-align: center;
-    margin-bottom: 2.5rem;
-    color: #1f2937;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #1f2937;
 }
 
-
 .columnsContainer {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: nowrap;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: nowrap;
 }
 
 .participantsColumn {
-    flex: 0 0 auto;
-    width: 370px;
-    position: sticky;
-    top: 92px;
-    align-self: flex-start; 
-    max-height: 100vh;
-    overflow-y: auto; 
+  flex: 0 0 auto;
+  width: 370px;
+  position: sticky;
+  top: 92px;
+  align-self: flex-start;
 }
 
 .itemsColumn {
-    flex: 1;
-    min-width: 0;
+  flex: 1;
+  min-width: 0;
 }
+.receiptHeader {
+  display: flex;
+  text-align: center;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.receiptHeader div {
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  text-align: center;
+  justify-content: start;
+  align-items: center;
 
+  text-decoration-line: underline;
+}
+.link {
+  margin-left: 8px;
+  padding: 4px;
+}
+.link:hover {
+  background-color: rgb(100, 238, 97);
+  border-radius: 8px;
+  padding: 4px;
+  cursor: pointer;
+}
 .participantsColumn h2,
 .itemsColumn h2 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: #1f2937;
-    font-size: 1.125rem;
-    font-weight: 600;
-}
+  margin-top: 0;
 
-
-@media (max-width: 768px) {
-    .columnsContainer {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    
-    .participantsColumn {
-        width: 100%;
-    }
+  color: #1f2937;
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
-    .participantsColumn {
-        position: relative;
-        top: 0;
-        max-height: none;
-        overflow-y: visible;
-    }
+  .columnsContainer {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .participantsColumn {
+    width: 100%;
+  }
+  .receiptContainer {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .participantsColumn {
+    position: relative;
+    top: 0;
+    max-height: none;
+    overflow-y: visible;
+  }
 }
