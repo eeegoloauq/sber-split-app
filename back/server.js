@@ -1,10 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const { promisify } = require('util');
-const { fileToBase64, makeRequest, verifyTotalSum } = require('./testUtils');
+const express = require("express");
+const cors = require("cors");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+const { promisify } = require("util");
+const { fileToBase64, makeRequest, verifyTotalSum } = require("./testUtils");
 
 // Create Express app
 const app = express();
@@ -17,7 +17,7 @@ app.use(express.json());
 // Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadsDir = path.join(__dirname, 'uploads');
+    const uploadsDir = path.join(__dirname, "uploads");
     if (!fs.existsSync(uploadsDir)) {
       fs.mkdirSync(uploadsDir, { recursive: true });
     }
@@ -25,23 +25,24 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.now()}-${file.originalname}`);
-  }
+  },
 });
 
 const upload = multer({ storage: storage });
 
 // API Endpoint to process receipt
-app.post('/upload', upload.single('file'), async (req, res) => {
+app.post("/upload", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ error: 'No file uploaded' });
+      return res.status(400).json({ error: "No file uploaded" });
     }
 
-    console.log('File received:', req.file.path);
-    
+    console.log("File received:", req.file.path);
+
     // Configuration
     const modelName = "gemini-2.0-flash";
-    const NETLIFY_FUNCTION_URL = "https://magenta-tartufo-d2e30a.netlify.app/.netlify/functions/gemini-proxy";
+    const NETLIFY_FUNCTION_URL =
+      "https://magenta-tartufo-d2e30a.netlify.app/.netlify/functions/gemini-proxy";
 
     // Convert image to base64
     const imageBase64 = fileToBase64(req.file.path);
@@ -126,18 +127,18 @@ app.post('/upload', upload.single('file'), async (req, res) => {
             {
               inline_data: {
                 mime_type: req.file.mimetype,
-                data: imageBase64
-              }
-            }
-          ]
-        }
+                data: imageBase64,
+              },
+            },
+          ],
+        },
       ],
       generationConfig: {
         temperature: 0.4,
         topK: 32,
         topP: 0.95,
         maxOutputTokens: 4096,
-      }
+      },
     };
 
     console.log("Sending request to Gemini API via Netlify Function...");
@@ -147,7 +148,11 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     let responseText;
     if (result && result.rawText) {
       responseText = result.rawText;
-    } else if (result && result.candidates && result.candidates[0]?.content?.parts?.[0]?.text) {
+    } else if (
+      result &&
+      result.candidates &&
+      result.candidates[0]?.content?.parts?.[0]?.text
+    ) {
       responseText = result.candidates[0].content.parts[0].text;
     } else {
       console.error("ERROR: Could not get text response from API.");
@@ -163,29 +168,35 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       cleanedText = match[1].trim();
       console.log("Removed markdown delimiters from response.");
     } else {
-      console.log("Markdown delimiters not detected, using original response text.");
+      console.log(
+        "Markdown delimiters not detected, using original response text."
+      );
     }
 
     try {
       // Parse JSON
       const jsonData = JSON.parse(cleanedText);
-      
+
       // Verify total
       verifyTotalSum(jsonData);
-      
+
       // Save JSON for reference
-      const outputPath = path.join(__dirname, 'processedReceipts', `${Date.now()}.json`);
+      const outputPath = path.join(
+        __dirname,
+        "processedReceipts",
+        `${Date.now()}.json`
+      );
       const dir = path.dirname(outputPath);
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
-      fs.writeFileSync(outputPath, JSON.stringify(jsonData, null, 2), 'utf8');
-      
+      fs.writeFileSync(outputPath, JSON.stringify(jsonData, null, 2), "utf8");
+
       // Send response to client
       return res.status(200).json({
         success: true,
         receiptData: jsonData,
-        id: path.basename(outputPath, '.json')
+        id: path.basename(outputPath, ".json"),
       });
     } catch (jsonError) {
       console.error("Error parsing JSON:", jsonError.message);
@@ -193,18 +204,24 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     }
   } catch (error) {
     console.error("Server error:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    return res
+      .status(500)
+      .json({ error: "Не удалось распознать ваш чек, попробуйте заново." });
   }
 });
 
 // Get processed receipt by ID
-app.get('/receipts/:id', (req, res) => {
+app.get("/receipts/:id", (req, res) => {
   const receiptId = req.params.id;
-  const filePath = path.join(__dirname, 'processedReceipts', `${receiptId}.json`);
-  
+  const filePath = path.join(
+    __dirname,
+    "processedReceipts",
+    `${receiptId}.json`
+  );
+
   if (fs.existsSync(filePath)) {
     try {
-      const data = fs.readFileSync(filePath, 'utf8');
+      const data = fs.readFileSync(filePath, "utf8");
       return res.json(JSON.parse(data));
     } catch (error) {
       return res.status(500).json({ error: "Failed to read receipt data" });
@@ -217,4 +234,4 @@ app.get('/receipts/:id', (req, res) => {
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-}); 
+});
