@@ -76,7 +76,6 @@ const Participants = ({ participants = [], onAddParticipant = () => {} }) => {
           <div>Добавить </div>
         </div>
       )}
-      <button className={styles.HalfButton}>Поделить пополам</button>
     </div>
   );
 };

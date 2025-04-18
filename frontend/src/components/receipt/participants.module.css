@@ -56,8 +56,6 @@
   cursor: pointer;
   padding: 0.5rem 0 1rem 0;
   color: #6b7280;
-  border-bottom: var(--border-bottom);
-  margin-bottom: 1rem;
 }
 
 .addCircle {

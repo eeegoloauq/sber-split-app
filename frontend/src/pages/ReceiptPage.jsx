@@ -18,7 +18,8 @@ function SimpleCopyUrlButton() {
       <img src={link} alt="Copy link" className={styles.link} />
     </div>
   );
-}import settings from '../assets/settings.svg';
+}
+import cog from "../assets/cog.svg";
 
 function ReceiptPage() {
   const { receiptId } = useParams();
@@ -42,23 +43,26 @@ function ReceiptPage() {
   const [itemAssignments, setItemAssignments] = useState({});
   const [sberBonusAmount, setSberBonusAmount] = useState(0);
   const [originalTotalAmount, setOriginalTotalAmount] = useState(0);
-    const [showSettingsDropdown, setShowSettingsDropdown] = useState(false);
-    
-    const settingsDropdownRef = useRef(null);
+  const [showSettingsDropdown, setShowSettingsDropdown] = useState(false);
 
-    // Click outside handler for settings dropdown
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (settingsDropdownRef.current && !settingsDropdownRef.current.contains(event.target)) {
-                setShowSettingsDropdown(false);
-            }
-        }
+  const settingsDropdownRef = useRef(null);
 
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
+  // Click outside handler for settings dropdown
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        settingsDropdownRef.current &&
+        !settingsDropdownRef.current.contains(event.target)
+      ) {
+        setShowSettingsDropdown(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   //www.claudeusercontent.com/?errorReportingMode=parent
   // Пересчет итоговой суммы при изменении бонусов СберСпасибо
   https: useEffect(() => {
@@ -185,75 +189,78 @@ function ReceiptPage() {
     }
   };
 
-    // Split bill equally among all participants
-    const handleSplitEqually = () => {
-        if (participants.length === 0 || totalAmount === 0) return;
-        
-        const equalShare = totalAmount / participants.length;
-        const formattedEqualShare = parseFloat(equalShare.toFixed(2));
-        
-        const updatedParticipants = participants.map(participant => ({
-            ...participant,
-            amount: formattedEqualShare
-        }));
-        
-        setParticipants(updatedParticipants);
-        
-        // Reset item assignments as we're now splitting equally
-        setItemAssignments({});
-        setShowSettingsDropdown(false);
-    };
-    
-    // Reset all distributions
-    const handleResetDistribution = () => {
-        const updatedParticipants = participants.map(participant => ({
-            ...participant,
-            amount: 0
-        }));
-        
-        setParticipants(updatedParticipants);
-        setItemAssignments({});
-        setShowSettingsDropdown(false);
-    };
-    
-    // Remove the last participant
-    const handleRemoveLastParticipant = () => {
-        if (participants.length <= 1) return;
-        
-        const newParticipants = [...participants];
-        newParticipants.pop();
-        
-        // Update item assignments to remove the last participant
-        const updatedAssignments = { ...itemAssignments };
-        
-        Object.keys(updatedAssignments).forEach(itemId => {
-            const assignment = updatedAssignments[itemId];
-            const removedParticipantId = participants[participants.length - 1].id;
-            
-            if (assignment.payerIds.includes(removedParticipantId)) {
-                const updatedPayerIds = assignment.payerIds.filter(id => id !== removedParticipantId);
-                
-                if (updatedPayerIds.length > 0) {
-                    // Recalculate amount per person
-                    const amountPerPerson = assignment.amountPerPerson * 
-                        assignment.payerIds.length / updatedPayerIds.length;
-                    
-                    updatedAssignments[itemId] = {
-                        ...assignment,
-                        payerIds: updatedPayerIds,
-                        amountPerPerson
-                    };
-                } else {
-                    // If no payers left, remove the assignment
-                    delete updatedAssignments[itemId];
-                }
-            }
-        });
-        
-        setItemAssignments(updatedAssignments);
-        setParticipants(newParticipants);
-        setShowSettingsDropdown(false);
-    };
+  // Split bill equally among all participants
+  const handleSplitEqually = () => {
+    if (participants.length === 0 || totalAmount === 0) return;
+
+    const equalShare = totalAmount / participants.length;
+    const formattedEqualShare = parseFloat(equalShare.toFixed(2));
+
+    const updatedParticipants = participants.map((participant) => ({
+      ...participant,
+      amount: formattedEqualShare,
+    }));
+
+    setParticipants(updatedParticipants);
+
+    // Reset item assignments as we're now splitting equally
+    setItemAssignments({});
+    setShowSettingsDropdown(false);
+  };
+
+  // Reset all distributions
+  const handleResetDistribution = () => {
+    const updatedParticipants = participants.map((participant) => ({
+      ...participant,
+      amount: 0,
+    }));
+
+    setParticipants(updatedParticipants);
+    setItemAssignments({});
+    setShowSettingsDropdown(false);
+  };
+
+  // Remove the last participant
+  const handleRemoveLastParticipant = () => {
+    if (participants.length <= 1) return;
+
+    const newParticipants = [...participants];
+    newParticipants.pop();
+
+    // Update item assignments to remove the last participant
+    const updatedAssignments = { ...itemAssignments };
+
+    Object.keys(updatedAssignments).forEach((itemId) => {
+      const assignment = updatedAssignments[itemId];
+      const removedParticipantId = participants[participants.length - 1].id;
+
+      if (assignment.payerIds.includes(removedParticipantId)) {
+        const updatedPayerIds = assignment.payerIds.filter(
+          (id) => id !== removedParticipantId
+        );
+
+        if (updatedPayerIds.length > 0) {
+          // Recalculate amount per person
+          const amountPerPerson =
+            (assignment.amountPerPerson * assignment.payerIds.length) /
+            updatedPayerIds.length;
+
+          updatedAssignments[itemId] = {
+            ...assignment,
+            payerIds: updatedPayerIds,
+            amountPerPerson,
+          };
+        } else {
+          // If no payers left, remove the assignment
+          delete updatedAssignments[itemId];
+        }
+      }
+    });
+
+    setItemAssignments(updatedAssignments);
+    setParticipants(newParticipants);
+    setShowSettingsDropdown(false);
+  };
 
   if (loading) {
     return (
@@ -288,39 +295,39 @@ function ReceiptPage() {
 
       <div className={styles.columnsContainer}>
         <div className={styles.participantsColumn}>
-                    <div className={styles.participantsHeader}>
-          <h2>Участники</h2>
-                    <div style={{ position: 'relative' }} ref={settingsDropdownRef}>
-                        <img 
-                            src={settings} 
-                            alt="Настройки" 
-                            className={styles.settings} 
-                            onClick={() => setShowSettingsDropdown(!showSettingsDropdown)}
-                        />
-                        {showSettingsDropdown && (
-                            <div className={styles.settingsDropdown}>
-                                <div 
-                                    className={styles.settingsOption} 
-                                    onClick={handleSplitEqually}
-                                >
-                                    Разделить поровну
-                                </div>
-                                <div 
-                                    className={styles.settingsOption} 
-                                    onClick={handleResetDistribution}
-                                >
-                                    Сбросить распределение
-                                </div>
-                                <div 
-                                    className={styles.settingsOption} 
-                                    onClick={handleRemoveLastParticipant}
-                                >
-                                    Убрать последнего участника
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    </div>
+          <div className={styles.participantsHeader}>
+            <h2 className={styles.participantsHeaderDiv}>Участники</h2>
+            <div style={{ position: "relative" }} ref={settingsDropdownRef}>
+              <img
+                src={cog}
+                alt="Настройки"
+                className={styles.settings}
+                onClick={() => setShowSettingsDropdown(!showSettingsDropdown)}
+              />
+              {showSettingsDropdown && (
+                <div className={styles.settingsDropdown}>
+                  <div
+                    className={styles.settingsOption}
+                    onClick={handleSplitEqually}
+                  >
+                    Разделить поровну
+                  </div>
+                  <div
+                    className={styles.settingsOption}
+                    onClick={handleResetDistribution}
+                  >
+                    Сбросить распределение
+                  </div>
+                  <div
+                    className={styles.settingsOption}
+                    onClick={handleRemoveLastParticipant}
+                  >
+                    Убрать последнего участника
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
           <LeftCol
             totalAmount={totalAmount}
             serviceFee={serviceFee}

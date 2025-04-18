@@ -1,54 +1,61 @@
 .participantsHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
+.participantsHeader h2 {
+  margin: none;
+}
 .settings {
-    cursor: pointer;
-    color: var(--text-main);
-    width: 24px;
-    height: 24px;
-    transition: transform 0.2s ease;
+  cursor: pointer;
+
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
 }
 
 .settings:hover {
-    transform: rotate(20deg);
+  transform: rotate(20deg);
 }
-
+.participantsHeaderDiv {
+  margin: 0;
+  height: 32px;
+  padding: 2px;
+}
 .settingsDropdown {
-    position: absolute;
-    right: 0;
-    top: 30px;
-    background-color: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 0.5rem 0;
-    z-index: 10;
-    min-width: 220px;
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  z-index: 10;
+  min-width: 220px;
 }
 
 .settingsOption {
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    color: #333;
-    font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #333;
+  font-size: 0.95rem;
 }
 
 .settingsOption:hover {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
 }
 
 .participantsHeaderButton {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .receiptContainer {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  margin-top: 16px;
 }
 
 .receiptContainer h1 {
@@ -105,7 +112,7 @@
 .participantsColumn h2,
 .itemsColumn h2 {
   margin-top: 0;
-  margin-bottom: 1rem;
+
   color: #1f2937;
   font-size: 1.125rem;
   font-weight: 600;
