@@ -5,7 +5,20 @@ import LeftCol from "../features/LeftCol.jsx";
 import RightCol from "../features/RightCol.jsx";
 import { getReceiptById } from "../services/api";
 import link from "../assets/link.svg";
+function SimpleCopyUrlButton() {
+  const copyUrl = () => {
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(() => alert("URL copied to clipboard!"))
+      .catch((err) => alert("Failed to copy URL"));
+  };
 
+  return (
+    <div onClick={copyUrl} className={styles.linkButton}>
+      <img src={link} alt="Copy link" className={styles.link} />
+    </div>
+  );
+}
 function ReceiptPage() {
   const { receiptId } = useParams();
   console.log("Rendering receipt page for ID:", receiptId);
@@ -28,9 +41,9 @@ function ReceiptPage() {
   const [itemAssignments, setItemAssignments] = useState({});
   const [sberBonusAmount, setSberBonusAmount] = useState(0);
   const [originalTotalAmount, setOriginalTotalAmount] = useState(0);
-
+  //www.claudeusercontent.com/?errorReportingMode=parent
   // Пересчет итоговой суммы при изменении бонусов СберСпасибо
-  useEffect(() => {
+  https: useEffect(() => {
     // Вычитаем бонусы из общей суммы, но не меньше 0
     const newTotal = Math.max(0, originalTotalAmount - sberBonusAmount);
     setTotalAmount(newTotal);
@@ -177,7 +190,7 @@ function ReceiptPage() {
     <div className={styles.receiptContainer}>
       <div className={styles.receiptHeader}>
         <div>
-          Чек #{receiptId} <img src={link} alt="link" className={styles.link} />
+          Чек #{receiptId} <SimpleCopyUrlButton />
         </div>
 
         <div className={styles.receiptTotal}>
