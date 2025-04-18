@@ -1,3 +1,50 @@
+.participantsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settings {
+    cursor: pointer;
+    color: var(--text-main);
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s ease;
+}
+
+.settings:hover {
+    transform: rotate(20deg);
+}
+
+.settingsDropdown {
+    position: absolute;
+    right: 0;
+    top: 30px;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 0;
+    z-index: 10;
+    min-width: 220px;
+}
+
+.settingsOption {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.settingsOption:hover {
+    background-color: #f8f9fa;
+}
+
+.participantsHeaderButton {
+    margin-bottom: 1rem;
+}
+
 .receiptContainer {
   padding: 2rem;
   max-width: 1200px;
