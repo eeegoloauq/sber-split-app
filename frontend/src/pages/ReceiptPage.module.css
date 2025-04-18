@@ -1,63 +1,88 @@
 .receiptContainer {
-    padding: 2rem; 
-    max-width: 1200px;      
-    margin: 0 auto;     
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .receiptContainer h1 {
-    text-align: center;
-    margin-bottom: 2.5rem;
-    color: #1f2937;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #1f2937;
 }
 
 .columnsContainer {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: nowrap;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: nowrap;
 }
 
 .participantsColumn {
-    flex: 0 0 auto;
-    width: 370px;
-    position: sticky;
-    top: 92px;
-    align-self: flex-start; 
+  flex: 0 0 auto;
+  width: 370px;
+  position: sticky;
+  top: 92px;
+  align-self: flex-start;
 }
 
 .itemsColumn {
-    flex: 1;
-    min-width: 0;
+  flex: 1;
+  min-width: 0;
 }
+.receiptHeader {
+  display: flex;
+  text-align: center;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.receiptHeader div {
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  text-align: center;
+  justify-content: start;
+  align-items: center;
 
+  text-decoration-line: underline;
+}
+.link {
+  margin-left: 8px;
+  padding: 4px;
+}
+.link:hover {
+  background-color: rgb(100, 238, 97);
+  border-radius: 8px;
+  padding: 4px;
+  cursor: pointer;
+}
 .participantsColumn h2,
 .itemsColumn h2 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: #1f2937;
-    font-size: 1.125rem;
-    font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #1f2937;
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
-    .columnsContainer {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    
-    .participantsColumn {
-        width: 100%;
-    }
-    .receiptContainer {
-        padding: 1rem;
-    }
+  .columnsContainer {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .participantsColumn {
+    width: 100%;
+  }
+  .receiptContainer {
+    padding: 1rem;
+  }
 }
 
 @media (max-width: 768px) {
-    .participantsColumn {
-        position: relative;
-        top: 0;
-        max-height: none;
-        overflow-y: visible;
-    }
-
+  .participantsColumn {
+    position: relative;
+    top: 0;
+    max-height: none;
+    overflow-y: visible;
+  }
 }
