@@ -83,7 +83,6 @@
   padding: 8px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
-  font-size: 14px;
 }
 
 .addButton {
@@ -94,6 +93,7 @@
   border-radius: 6px;
   font-weight: 500;
   cursor: pointer;
+  margin-bottom: 8px;
   transition: background-color 0.2s ease;
 }
 
@@ -102,7 +102,6 @@
 }
 
 .HalfButton {
-  min-width: 320px;
   height: 40px;
   background-color: var(--green-color);
   /* background-size: 100% 200%; */

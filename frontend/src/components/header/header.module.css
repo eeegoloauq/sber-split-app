@@ -1,55 +1,52 @@
 .header {
-    width: 100%;
-    height: 60px;   
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    position: sticky;
-    top: 0;
-    left: 0;
-    font-weight: bold;
+  width: 100%;
+  height: 60px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  position: sticky;
+  top: 0;
+  left: 0;
+  font-weight: bold;
 }
 
 .headerLogo {
-    /* width: 120px;
+  /* width: 120px;
     height: 35px; */
-    width: 130px;
-    height: 80px;
-    margin-top: 5px;
+  width: 130px;
+  height: 80px;
+  margin-top: 5px;
 }
-
 
 .headerContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    width: 100%; 
-    
-    height: 70px;
-    border-bottom: var(--border-bottom);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+
+  height: 70px;
+  background-color: var(--background-transpart);
+
+  border-bottom: var(--border-bottom);
 }
 
-
 .navLinks {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .navLink {
-    color: rgba(88, 88, 88, 0.904);
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 500;
-    transition: opacity 0.2s ease;
-    margin-right: 10px;
+  color: rgba(88, 88, 88, 0.904);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+  margin-right: 10px;
 }
 
 .navLink:hover {
-    color: rgb(39, 39, 39);
+  color: rgb(39, 39, 39);
 }
-
-
-
