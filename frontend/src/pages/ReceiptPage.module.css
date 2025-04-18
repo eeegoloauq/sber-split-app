@@ -22,8 +22,6 @@
   position: sticky;
   top: 92px;
   align-self: flex-start;
-  max-height: 100vh;
-  overflow-y: auto;
 }
 
 .itemsColumn {
