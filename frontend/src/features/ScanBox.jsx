@@ -97,7 +97,7 @@ function ScanBox() {
   useEffect(() => {
     console.log("ScanBox useEffect: selectedFile изменился", selectedFile);
     if (selectedFile) {
-      // Вместо отправки показываем интерфейс для кадрирования
+      // Вместо отправкир показываем интерфейс для кадрирования
       setSelectedImageForCrop(selectedFile);
       setShowCropper(true);
     }
