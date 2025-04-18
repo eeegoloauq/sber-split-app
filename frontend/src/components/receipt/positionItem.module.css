@@ -67,6 +67,7 @@
   gap: 8px;
   flex-wrap: wrap;
   flex-grow: 1;
+  margin-top: 10px;
 }
 
 .payerAvatar {
@@ -90,12 +91,10 @@
 }
 
 .splitInfo {
-  font-size: 0.85rem;
-  color: #64748b;
-  background-color: #f1f5f9;
-  padding: 4px 8px;
-  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
   white-space: nowrap;
-  margin-left: auto;
   flex-shrink: 0;
+  margin-top: 10px;
+  font-weight: 400;
 }

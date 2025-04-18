@@ -69,7 +69,9 @@ const PositionItem = ({
         <div className={styles.whoPaysFlex}>
           <span className={styles.whoPaysLabel}>Кто платит:</span>
 
-          <div className={styles.payerAvatars}>
+          
+        </div>
+        <div className={styles.payerAvatars}>
             {participants.map((participant, index) => {
               const isSelected = selectedPayers.includes(participant.id);
               return (
@@ -98,7 +100,6 @@ const PositionItem = ({
             </div>
           )}
         </div>
-      </div>
     </div>
   );
 };
