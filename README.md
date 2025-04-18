@@ -1,124 +1,77 @@
 # Sber Split App
 
-A receipt scanning and bill splitting application that allows users to upload receipt images, extract items, and split bills among friends.
+<div align="center">
+  <img src="frontend/public/logo.svg" alt="Sber Split Logo" width="120">
+  <h2>Умное разделение чеков с использованием AI</h2>
+</div>
 
-## Project Structure
+## 📋 О проекте
 
-The project is divided into two main parts:
+**Sber Split App** — инновационное приложение для анализа чеков и разделения расходов между друзьями и коллегами. Приложение использует AI для автоматического распознавания позиций в чеке и предлагает удобные инструменты для справедливого разделения счета.
 
-- **Frontend**: React.js application for user interface
-- **Backend**: Node.js server for processing receipt images and extracting data
+## ✨ Основные возможности
 
-## Features
+- 📷 **Сканирование чеков** — загрузка изображений чеков прямо с устройства
+- 🤖 **AI распознавание** — автоматическое извлечение позиций и цен с помощью Google Gemini AI
+- 👥 **Гибкое разделение** — возможность назначать разные позиции разным участникам
+- 📊 **Расчет сумм** — точный и справедливый расчет для каждого участника
+- 💾 **История чеков** — сохранение и доступ к ранее обработанным чекам
 
-- Upload receipt images
-- Automatically extract receipt items and prices using Google's Gemini AI
-- Split bills among multiple participants
-- Track who pays for what items
-- Calculate per-person amounts
-
-## Requirements
-
-- Node.js 14.x or higher
-- npm or yarn
-
-## Setup and Running
-
-### Backend Setup
-
-1. Navigate to the backend directory:
-   ```
-   cd back
-   ```
-
-2. Install dependencies:
-   ```
-   npm install
-   ```
-
-3. Start the server:
-   ```
-   npm start
-   ```
-
-   The server will start on http://localhost:5000
-
-### Frontend Setup
-
-1. Navigate to the frontend directory:
-   ```
-   cd frontend
-   ```
-
-2. Install dependencies:
-   ```
-   npm install
-   ```
-
-3. Start the development server:
-   ```
-   npm run dev
-   ```
-
-   The frontend will start on http://localhost:5173
-
-## How to Use
-
-1. Open the application in your browser
-2. Click on the "Scan Receipt" button on the homepage
-3. Select an image of a receipt from your device
-4. Crop the image if needed
-5. Wait for the receipt to be processed
-6. On the receipt page, you'll see all the extracted items
-7. Add participants who were part of the bill
-8. Assign items to specific participants by clicking on their avatars
-9. View the split amounts for each person
-
-## Technologies Used
+## 🔧 Технический стек
 
 ### Frontend
-- React.js
-- React Router
-- CSS Modules
+- **React** — современная библиотека для построения пользовательских интерфейсов
+- **React Router** — для маршрутизации между страницами приложения
+- **CSS Modules** — для стилизации компонентов
+- **React Image Crop** — для обрезки изображений чеков
+- **Vite** — для быстрой сборки и разработки
 
 ### Backend
-- Node.js
-- Express
-- Multer for file uploads
-- Google Gemini AI for receipt processing
+- **Node.js + Express** — для серверной логики и API
+- **Multer** — для обработки загрузки файлов
+- **Google Gemini AI** — для распознавания содержимого чеков
+- **CORS** — для обеспечения безопасного взаимодействия между фронтендом и бэкендом
 
-## API Endpoints
+## 🚀 Быстрый старт
+
+### Запуск Backend
+```bash
+cd back
+npm install
+npm start
+```
+Сервер запустится на http://localhost:5000
+
+### Запуск Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Фронтенд запустится на http://localhost:5173
+
+## 📱 Использование
+
+1. На главной странице нажмите кнопку "Сканировать чек"
+2. Загрузите фотографию чека и при необходимости обрежьте её
+3. Дождитесь обработки чека системой
+4. На странице чека добавьте участников, которые были частью счета
+5. Назначьте позиции конкретным участникам, выбирая их аватары
+6. Просмотрите итоговые суммы для каждого участника
+
+## 📚 API эндпоинты
 
 ### Backend API
+- `POST /upload` — Загрузка и обработка изображения чека
+- `GET /receipts/:id` — Получение данных обработанного чека
 
-- `POST /upload` - Upload and process a receipt image
-- `GET /receipts/:id` - Get details of a processed receipt
+## 🧩 Архитектура проекта
 
-## Development
+Проект разделен на два основных компонента:
 
-### Adding New Features
+- **Frontend**: React приложение с компонентной структурой для удобного и интуитивного интерфейса
+- **Backend**: Node.js сервер для обработки изображений и извлечения данных с использованием AI
 
-The application is designed to be modular and extensible. Here are some tips for adding new features:
+## 📄 Лицензия
 
-1. Backend endpoints should be added to `server.js`
-2. Frontend components should follow the existing structure in `src/components`
-3. React hooks for reusable logic can be added to `src/hooks`
-
-### Code Style
-
-The project uses ESLint for code linting. Run linting with:
-
-```
-npm run lint
-```
-
-## Troubleshooting
-
-### Common Issues
-
-- If the backend fails to start, make sure port 5000 is not in use
-- If image uploads fail, check that the uploads directory exists and has write permissions
-
-## License
-
-This project is licensed under the MIT License. 
+Проект распространяется под лицензией MIT. 
