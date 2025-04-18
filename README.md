@@ -1,7 +1,7 @@
 # Sber Split App
 
 <div align="center">
-  <img src="frontend/public/logo.svg" alt="Sber Split Logo" width="120">
+  <img src="frontend/src/assets/logo.png" alt="Sber Split Logo" width="120">
   <h2>Умное разделение чеков с использованием AI</h2>
 </div>
 
