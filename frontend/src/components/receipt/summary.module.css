@@ -1,88 +1,89 @@
 .summaryContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    height: auto;
-    max-width: 370px;
-    justify-content: center;
-    align-items: stretch;
-    padding: 1rem;
-    border-radius: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: auto;
+  max-width: 370px;
+  justify-content: center;
+  align-items: stretch;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
 }
 
-
 .summaryHeader {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-    gap: 0.75rem;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 0.75rem;
 }
 
 .summaryAmount {
-    font-size: 1.3rem;  
-    font-weight: bold;
-    color: var(--green-color);
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--green-color);
 }
 
-
 .summaryRow {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-    
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .summaryValue {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-main);
-    margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
 }
 
 .summaryTitle {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--text-main);
-    margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
 }
 
 .summaryLabel {
-    font-size: 0.9rem;
-    font-weight: 400; 
-    /* text-shadow: 0 0 0.1px var(--text-secondary); */
-    color: var(--text-secondary);
-    margin: 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  /* text-shadow: 0 0 0.1px var(--text-secondary); */
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 .summaryDiscount {
-    font-size: 1.1rem;
-    font-weight: 600; 
-    color: var(--green-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--green-color);
 }
 
 .withBottomBorder {
-    padding-bottom: 1rem;
-    border-bottom: var(--border-bottom);
+  padding-bottom: 1rem;
+  border-bottom: var(--border-bottom);
 }
 
 .summaryButton {
-    height: 40px;
-    background-color: var(--green-color);
-    font-size: 1rem;
-    color: white;   
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  height: 40px;
+  background-image: linear-gradient(
+    to right,
+    rgb(100, 238, 97),
+    rgb(50, 184, 211)
+  );
+
+  font-size: 1.2rem;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 .summaryButton:hover {
-    box-shadow: 0 0 10px rgba(75, 211, 154, 0.4);
+  box-shadow: 0 0 10px rgba(75, 211, 154, 0.4);
 }

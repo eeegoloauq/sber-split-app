@@ -1,127 +1,119 @@
 .participantsContainer {
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    max-width: 350px;
-    justify-content: center;
-    align-items: stretch;
-    padding: 1rem;
-    border-radius: 10px;    
-    background-color: #ffffff;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  max-width: 350px;
+  justify-content: center;
+  align-items: stretch;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
 }
 
 .participantItem {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
 }
 
 .avatarCircle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #f1f5f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 500;
-    color: #64748b;
-    font-size: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  color: #64748b;
+  font-size: 16px;
 }
 
 .participantInfo {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .participantName {
-    font-weight: 500;
-    color: #374151;
-    font-size: 16px;
+  font-weight: 500;
+  color: #374151;
+  font-size: 16px;
 }
 
 .participantAmount {
-    color: #10b981;
-    font-weight: 500;
+  color: #10b981;
+  font-weight: 500;
 }
 
 .addParticipantRow {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    padding: 0.5rem 0 1rem 0;
-    color: #6b7280;
-    border-bottom: var(--border-bottom);
-    margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 0.5rem 0 1rem 0;
+  color: #6b7280;
+  border-bottom: var(--border-bottom);
+  margin-bottom: 1rem;
 }
 
 .addCircle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #f1f5f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    color: #9ca3af;
-    
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: #9ca3af;
 }
 
 .addForm {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 8px;
- 
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .nameInput {
-    padding: 8px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 14px;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
 .addButton {
-    padding: 8px 16px;
-    background-color: #10b981;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    
+  padding: 8px 16px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .addButton:hover {
-    background-color: #059669;
+  background-color: #059669;
 }
-
-
-
-
 
 .HalfButton {
-    min-width: 320px;
-    height: 40px;
-    background-image: linear-gradient(to right, rgb(100, 238, 97), rgb(50, 184, 211));
-    /* background-size: 100% 200%; */
-    font-size: 1.2rem;
-    color: white;   
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  min-width: 320px;
+  height: 40px;
+  background-color: var(--green-color);
+  /* background-size: 100% 200%; */
+  font-size: 1rem;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 .HalfButton:hover {
-    /* animation: gradient 5s ease infinite; */
-    box-shadow: 0 0 10px rgba(75, 211, 154, 0.4);
+  /* animation: gradient 5s ease infinite; */
+  box-shadow: 0 0 10px rgba(75, 211, 154, 0.4);
 }
