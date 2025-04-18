@@ -11,7 +11,7 @@
   
 }
 
-/* Horizontal container for info text and scan box */
+
 .contentContainer {
   display: flex;
   flex-direction: row;
@@ -69,7 +69,7 @@
   margin-right: 0.8rem;
 }
 
-/* Styles for Sber Cat */
+
 .sberCatContainer {
   display: flex;
   flex-direction: row;
